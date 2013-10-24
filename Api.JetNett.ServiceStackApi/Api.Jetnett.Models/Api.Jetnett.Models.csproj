@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0339A382-4CB5-401A-B86A-B86A8EC524CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Api.Jetnett.Models</RootNamespace>
+    <AssemblyName>Api.Jetnett.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces">
+      <HintPath>..\packages\ServiceStack.Common.3.9.69\lib\net35\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Models\Active_Jobs.cs" />
+    <Compile Include="Models\Ad.cs" />
+    <Compile Include="Models\AdGroup.cs" />
+    <Compile Include="Models\admin.cs" />
+    <Compile Include="Models\Ads_Model.cs" />
+    <Compile Include="Models\Ad_Assignments.cs" />
+    <Compile Include="Models\Ad_Page_Relationship.cs" />
+    <Compile Include="Models\Ad_Tracker.cs" />
+    <Compile Include="Models\Ad_View_Tracker.cs" />
+    <Compile Include="Models\agentPrice.cs" />
+    <Compile Include="Models\Available_Properties_Page.cs" />
+    <Compile Include="Models\Bad_Links.cs" />
+    <Compile Include="Models\Builder_Checklist.cs" />
+    <Compile Include="Models\ByEmailNew.cs" />
+    <Compile Include="Models\CAL_History.cs" />
+    <Compile Include="Models\cdreg_eu.cs" />
+    <Compile Include="Models\Classification_Groups.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Client_Center_Menu.cs" />
+    <Compile Include="Models\Client_Notes.cs" />
+    <Compile Include="Models\Community_Menu.cs" />
+    <Compile Include="Models\Community_ZipCodes.cs" />
+    <Compile Include="Models\Complete_Jobs.cs" />
+    <Compile Include="Models\Contact_Page.cs" />
+    <Compile Include="Models\Contact_Page_Staff_Members.cs" />
+    <Compile Include="Models\Customer_Link_Page.cs" />
+    <Compile Include="Models\Customer_Messages.cs" />
+    <Compile Include="Models\Daily_EZ.cs" />
+    <Compile Include="Models\Desktop_Uses.cs" />
+    <Compile Include="Models\Developer_Images.cs" />
+    <Compile Include="Models\Email_Tracker.cs" />
+    <Compile Include="Models\End_Users.cs" />
+    <Compile Include="Models\Extended_Clients.cs" />
+    <Compile Include="Models\EZ_Center.cs" />
+    <Compile Include="Models\EZ_Center_End_User.cs" />
+    <Compile Include="Models\EZ_DE.cs" />
+    <Compile Include="Models\EZ_NWS.cs" />
+    <Compile Include="Models\EZ_TTD.cs" />
+    <Compile Include="Models\FavLink.cs" />
+    <Compile Include="Models\Folder.cs" />
+    <Compile Include="Models\Folder_Fav.cs" />
+    <Compile Include="Models\Folder_Notes.cs" />
+    <Compile Include="Models\Home_Page.cs" />
+    <Compile Include="Models\Information_Page.cs" />
+    <Compile Include="Models\Jetnett_Messages.cs" />
+    <Compile Include="Models\Link.cs" />
+    <Compile Include="Models\Link_Checker_Whitelist.cs" />
+    <Compile Include="Models\Link_Viewer_Logs.cs" />
+    <Compile Include="Models\MEG.cs" />
+    <Compile Include="Models\MEG_Agent.cs" />
+    <Compile Include="Models\MEG_Contact.cs" />
+    <Compile Include="Models\MEG_Folder_Owner.cs" />
+    <Compile Include="Models\MEG_Primary.cs" />
+    <Compile Include="Models\MEG_SubLicense.cs" />
+    <Compile Include="Models\MEG_v3.cs" />
+    <Compile Include="Models\menuLink.cs" />
+    <Compile Include="Models\MenuLink_Folders.cs" />
+    <Compile Include="Models\Metro_eGuide.cs" />
+    <Compile Include="Models\Metro_eGuide_By_Email.cs" />
+    <Compile Include="Models\Metro_eGuide_By_Email_End_User.cs" />
+    <Compile Include="Models\Metro_eGuide_Menu.cs" />
+    <Compile Include="Models\Metro_eGuide_Smart_CD.cs" />
+    <Compile Include="Models\Metro_eGuide_Target.cs" />
+    <Compile Include="Models\Metro_eGuide_Verifier.cs" />
+    <Compile Include="Models\Metro_iLinks.cs" />
+    <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\Page_Views.cs" />
+    <Compile Include="Models\Price.cs" />
+    <Compile Include="Models\Project_DB_EU.cs" />
+    <Compile Include="Models\Project_DR.cs" />
+    <Compile Include="Models\Property_Listing.cs" />
+    <Compile Include="Models\Refer_Friend.cs" />
+    <Compile Include="Models\Registration.cs" />
+    <Compile Include="Models\Reported_Links.cs" />
+    <Compile Include="Models\Resource_Files.cs" />
+    <Compile Include="Models\salesPerson.cs" />
+    <Compile Include="Models\Schools_eGuide.cs" />
+    <Compile Include="Models\Schools_eGuide_End_Users.cs" />
+    <Compile Include="Models\Schools_eGuide_Side_Menu.cs" />
+    <Compile Include="Models\Schools_eGuide_Tracker.cs" />
+    <Compile Include="Models\School_Info.cs" />
+    <Compile Include="Models\Send_To_Friend.cs" />
+    <Compile Include="Models\Service_Requests.cs" />
+    <Compile Include="Models\Service_Request_Messages.cs" />
+    <Compile Include="Models\Smart_CD.cs" />
+    <Compile Include="Models\Smart_CD_End_User.cs" />
+    <Compile Include="Models\Smart_CD_Form.cs" />
+    <Compile Include="Models\Stack.cs" />
+    <Compile Include="Models\Sub_License.cs" />
+    <Compile Include="Models\Suspended_Links.cs" />
+    <Compile Include="Models\Tracker.cs" />
+    <Compile Include="Models\Update_Scripts.cs" />
+    <Compile Include="Models\Us.cs" />
+    <Compile Include="Models\Verifier.cs" />
+    <Compile Include="Models\verify.cs" />
+    <Compile Include="Models\version.cs" />
+    <Compile Include="Models\wisconsin_higher_schools.cs" />
+    <Compile Include="Models\wisconsin_private_schools.cs" />
+    <Compile Include="Models\wisconsin_public_schools.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableMappings\Clients.cs" />
+    <Compile Include="TableMappings\MappingMixins.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
