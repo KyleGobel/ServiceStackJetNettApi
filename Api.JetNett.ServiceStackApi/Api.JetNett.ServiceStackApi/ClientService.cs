@@ -24,22 +24,28 @@ namespace Api.JetNett.ServiceStackApi
             }
 
             return GetAll();
-            return "Invalid Query Object Values";
         }
 
         private List<Client> GetAll()
         {
-            return null;
+            using (var db = DbConnectionFactory.OpenDbConnection())
+            {
+                var clients = db.Select<Client>();
+                return clients;
+            }
         }
+
         private Client GetById(int id)
         {
             Client response = null;
             using (var db = DbConnectionFactory.OpenDbConnection())
             {
+               
                 response = db.GetById<Client>(id);
             }
             return response;
         }
+
         private Client GetByUsernamePassword(string username, string password)
         {
             Clients response = null;
