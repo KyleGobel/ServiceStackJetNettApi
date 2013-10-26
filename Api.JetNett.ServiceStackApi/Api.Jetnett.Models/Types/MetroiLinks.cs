@@ -1,7 +1,7 @@
 using System;
 using ServiceStack.DataAnnotations;
 
-namespace Api.Jetnett.Models.Models
+namespace Api.Jetnett.Models.Types
 {
     [Alias("Metro_iLinks")]
     public class MetroiLinks

@@ -1,6 +1,6 @@
 using ServiceStack.DataAnnotations;
 
-namespace Api.Jetnett.Models.Models
+namespace Api.Jetnett.Models.Types
 {
     [Alias("Clients")]
     public class Client

@@ -1,59 +1,28 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Api.Jetnett.Models.Models;
-using Api.Jetnett.Models.TableMappings;
-using ServiceStack.OrmLite;
-using ServiceStack.ServiceInterface;
+﻿using Api.Jetnett.Models.Operations;
+using Api.Jetnett.Models.Types;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class ClientService : Service
+    public class ClientService : OrmLiteRepository<Client>
     {
-        public IDbConnectionFactory DbConnectionFactory { get; set; }
-
-        public object Any(ClientQuery request)
+        public ClientResponse Get(ClientQuery request)
         {
             if (request.Id != default(int))
             {
-                return GetById(request.Id);
+                return new ClientResponse { Client = GetById(request.Id) };
             }
 
             if (request.Username != default(string) && request.Password != default(string))
             {
-                return GetByUsernamePassword(request.Username, request.Password);
+                return new ClientResponse
+                {
+                    Client = GetWhere(
+                        c => c.UserId == request.Username
+                        && c.Password == request.Password)
+                };
             }
 
-            return GetAll();
-        }
-
-        private List<Client> GetAll()
-        {
-            using (var db = DbConnectionFactory.OpenDbConnection())
-            {
-                var clients = db.Select<Client>();
-                return clients;
-            }
-        }
-
-        private Client GetById(int id)
-        {
-            Client response = null;
-            using (var db = DbConnectionFactory.OpenDbConnection())
-            {
-               
-                response = db.GetById<Client>(id);
-            }
-            return response;
-        }
-
-        private Client GetByUsernamePassword(string username, string password)
-        {
-            Clients response = null;
-            using (var db = DbConnectionFactory.OpenDbConnection())
-            {
-                response = db.Where<Clients>(c => c.User_ID == username && c.Password == password).SingleOrDefault();
-            }
-            return response.ToEntity();
+            return new ClientResponse { Clients = GetAll() };
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Api.Jetnett.Models.Types;
 
 namespace Api.Jetnett.Models.Models
 {
