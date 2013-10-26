@@ -7,8 +7,8 @@
     <ProjectGuid>{0339A382-4CB5-401A-B86A-B86A8EC524CE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Api.Jetnett.Models</RootNamespace>
-    <AssemblyName>Api.Jetnett.Models</AssemblyName>
+    <RootNamespace>Api.JetNett.Models</RootNamespace>
+    <AssemblyName>Api.JetNett.Models</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Operations\Clients.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
     <Compile Include="Types\Active_Jobs.cs" />

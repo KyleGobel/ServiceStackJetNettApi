@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Api.Jetnett.Models.Types;
+using Api.JetNett.Models.Types;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface.ServiceModel;
 
-namespace Api.Jetnett.Models.Operations
+namespace Api.JetNett.Models.Operations
 {
     [Route("/client", "GET")] //Returns All Clients
     [Route("/client/{Id}", "GET")] //Returns Client

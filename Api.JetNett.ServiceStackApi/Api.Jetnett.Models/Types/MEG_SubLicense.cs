@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Api.Jetnett.Models.Models
+namespace Api.JetNett.Models.Models
 {
     public partial class MEG_SubLicense
     {

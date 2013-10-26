@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using Api.Jetnett.Models.Operations;
-using Api.Jetnett.Models.Types;
+using Api.JetNett.Models.Operations;
+using Api.JetNett.Models.Types;
 using ServiceStack.Common.Web;
 
 namespace Api.JetNett.ServiceStackApi

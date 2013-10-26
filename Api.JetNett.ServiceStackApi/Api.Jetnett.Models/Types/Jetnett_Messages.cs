@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace Api.Jetnett.Models.Models
+namespace Api.JetNett.Models.Models
 {
-    public partial class Jetnett_Messages
+    public partial class JetNett_Messages
     {
         public int ID { get; set; }
         public string To { get; set; }

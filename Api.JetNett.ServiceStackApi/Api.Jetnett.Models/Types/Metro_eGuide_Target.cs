@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Api.Jetnett.Models.Types;
+using Api.JetNett.Models.Types;
 
-namespace Api.Jetnett.Models.Models
+namespace Api.JetNett.Models.Models
 {
     public partial class Metro_eGuide_Target
     {

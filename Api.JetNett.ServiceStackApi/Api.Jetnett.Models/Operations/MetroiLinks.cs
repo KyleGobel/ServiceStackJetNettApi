@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Api.Jetnett.Models.Types;
+using Api.JetNett.Models.Types;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface.ServiceModel;
 
-namespace Api.Jetnett.Models.Operations
+namespace Api.JetNett.Models.Operations
 {
     [Route("/metroilinks/{ClientId}", "GET")]
     [Route("/metroilinks/", "GET")]
-    public class MetroiLinksQuery : IReturn<Types.MetroiLinks>
+    public class MetroiLinksQuery : IReturn<MetroiLinksResponse>
     {
         public int Id { get; set; }
         public int ClientId { get; set; }
