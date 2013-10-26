@@ -8,6 +8,6 @@ namespace Api.JetNett.ServiceStackApi
     {
         T GetById(int id);
         List<T> GetAll();
-        T GetWhere(Expression<Func<T, bool>> whereExpression);
+        List<T> Where(Expression<Func<T, bool>> whereExpression);
     }
 }

@@ -19,9 +19,9 @@ namespace Api.JetNett.ServiceStackApi
             return Db.Select<T>();
         }
 
-        public virtual T GetWhere(Expression<Func<T, bool>> whereExpression)
+        public virtual List<T> Where(Expression<Func<T, bool>> whereExpression)
         {
-            return Db.Where(whereExpression).SingleOrDefault();
+            return Db.Where(whereExpression);
         }
 
     

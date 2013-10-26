@@ -50,7 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Operations\ClientResponse.cs" />
+    <Compile Include="Operations\Clients.cs" />
+    <Compile Include="Operations\MetroiLinks.cs" />
     <Compile Include="Types\Active_Jobs.cs" />
     <Compile Include="Types\Ad.cs" />
     <Compile Include="Types\AdGroup.cs" />
