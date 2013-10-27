@@ -3,12 +3,13 @@ using System.Linq;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
+using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
     public class MetroILinksService : JetNettService<MetroiLinkRequestDTO, MetroiLinksResponseDTO, MetroiLinks>
     {
-        public MetroILinksService(IDbConnection dbConnection) : base(dbConnection)
+        public MetroILinksService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
         { }
         /// <summary>
         /// GET
@@ -20,7 +21,7 @@ namespace Api.JetNett.ServiceStackApi
         {
             if (requestDto.ClientId != default(int)) {
                 return new MetroiLinksResponseDTO {
-                    Entity = Where(m => m.ClientId == requestDto.ClientId).SingleOrDefault()
+                    Entity = Repository.Where(m => m.ClientId == requestDto.ClientId).SingleOrDefault()
                 };
             }
 
