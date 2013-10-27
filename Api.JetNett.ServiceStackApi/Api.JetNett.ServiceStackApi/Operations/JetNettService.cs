@@ -18,7 +18,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         protected OrmLiteRepository<TModel> Repository { get; set; } 
         public JetNettService(IDbConnectionFactory dbConnectionFactory) 
         {
-            Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.CreateDbConnection());
+            Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.Open());
         }
         /// <summary>
         /// GET /metroilinks/{Id}
