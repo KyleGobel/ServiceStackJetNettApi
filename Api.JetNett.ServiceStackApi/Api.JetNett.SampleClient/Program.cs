@@ -4,9 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Api.JetNett.Models.Operations;
+using Api.JetNett.Models.Types;
 using RestSharp;
 using ServiceStack.ServiceClient.Web;
+using ServiceStack.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using ServiceStack.Text;
+using ServiceStack.Common;
 
+using ServiceStack;
 namespace Api.JetNett.SampleClient
 {
     class Program
@@ -22,9 +32,7 @@ namespace Api.JetNett.SampleClient
 
             var client = new JsonServiceClient("http://localhost:9037");
 
-            var response = client.Get(new MetroiLinksQuery { ClientId = 907 });
-
-
+            //client.Get<MetroiLinksResponse>("/metroilinks");
 
             Console.Read();
 

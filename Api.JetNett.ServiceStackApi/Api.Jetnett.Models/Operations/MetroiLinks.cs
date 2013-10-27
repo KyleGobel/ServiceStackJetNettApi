@@ -5,17 +5,34 @@ using ServiceStack.ServiceInterface.ServiceModel;
 
 namespace Api.JetNett.Models.Operations
 {
-    [Route("/metroilinks/{ClientId}", "GET")]
-    [Route("/metroilinks/", "GET")]
-    public class MetroiLinksQuery : IReturn<MetroiLinksResponse>
+    /// <summary>
+    /// Used for modifying or getting a single MetroiLink
+    /// </summary>
+    [Api("GET all Metro iLinks or GET or DELETE a single Metro iLink by Id. Use POST to create a new Metro iLink and PUT to update it.")]
+    [Route("/metroilinks/{Id}", "GET")]
+    [Route("/metroilinks", "GET, POST, PUT, PATCH, DELETE")]
+    public class MetroiLinkRequest : IReturn<MetroiLinkResponse>
     {
+        public MetroiLinkRequest()
+        {
+            MetroiLink = new MetroiLinks();
+        }
         public int Id { get; set; }
-        public int ClientId { get; set; }
+        public MetroiLinks MetroiLink { get; set; }
     }
- 
-    public class MetroiLinksResponse : IHasResponseStatus
+
+    /// <summary>
+    /// Used for getting all metroiLinks
+    /// </summary>
+    //public class MetroiLinksRequest : IReturn<MetroiLinksResponse>
+    //{ }
+
+    /// <summary>
+    /// Response for single metroilink operation
+    /// </summary>
+    public class MetroiLinkResponse : IHasResponseStatus
     {
-        public MetroiLinksResponse()
+        public MetroiLinkResponse()
         {
             this.ResponseStatus = new ResponseStatus();
             this.MetroiLink = new MetroiLinks();
@@ -25,8 +42,20 @@ namespace Api.JetNett.Models.Operations
         public MetroiLinks MetroiLink { get; set; }
 
         public List<MetroiLinks> MetroiLinks { get; set; }
-
         public ResponseStatus ResponseStatus { get; set; }
+    }
 
+    /// <summary>
+    /// Response for multiple metroilinks operations
+    /// </summary>
+    public class MetroiLinksResponse : IHasResponseStatus
+    {
+        public MetroiLinksResponse()
+        {
+            this.ResponseStatus = new ResponseStatus();
+            this.MetroiLinks = new List<MetroiLinks>();
+        }
+        public List<MetroiLinks> MetroiLinks { get; set; }
+        public ResponseStatus ResponseStatus { get; set; }
     }
 }

@@ -9,5 +9,8 @@ namespace Api.JetNett.ServiceStackApi
         T GetById(int id);
         List<T> GetAll();
         List<T> Where(Expression<Func<T, bool>> whereExpression);
+        long Insert(T entity);
+        void Update(T entity);
+        void Delete(int id);
     }
 }
