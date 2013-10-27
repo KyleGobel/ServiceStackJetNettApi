@@ -7,10 +7,15 @@ namespace Api.JetNett.ServiceStackApi
 {
     public class MetroILinksService : JetNettService<MetroiLinkRequestDTO, MetroiLinksResponseDTO, MetroiLinks>
     {
-        public MetroiLinksResponseDTO Get(MetroiLinkRequestDTO requestDto)
+        /// <summary>
+        /// GET
+        /// 
+        /// This GET takes care of getting by clientId
+        /// http://hostapi/metroilinks/client/{clientId}
+        /// </summary>
+        public override MetroiLinksResponseDTO Get(MetroiLinkRequestDTO requestDto)
         {
-            if (requestDto.ClientId != default(int))
-            {
+            if (requestDto.ClientId != default(int)) {
                 return new MetroiLinksResponseDTO {
                     Entity = Where(m => m.ClientId == requestDto.ClientId).SingleOrDefault()
                 };

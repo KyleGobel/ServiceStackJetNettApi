@@ -8,13 +8,13 @@ namespace Api.JetNett.ServiceStackApi
     {
         public class ApiAppHost : AppHostBase
         {
-            public ApiAppHost() : base("JetNett Api Service", typeof(MetroILinksService).Assembly)
+            public ApiAppHost() : base("JetNett Api Service", typeof(ApiAppHost).Assembly)
             {}
 
             public override void Configure(Funq.Container container)
             {
                 //Configure our application
-                var connectionString = @"Data Source=.\SQLExpress;Initial Catalog=DailyEZDevelopment;Integrated Security=True";
+                const string connectionString = @"Data Source=.\SQLExpress;Initial Catalog=DailyEZDevelopment;Integrated Security=True";
                 var dbConnectionFactory = new OrmLiteConnectionFactory(connectionString,
                     SqlServerDialect.Provider);
 

@@ -1,34 +1,39 @@
 ﻿using System.Collections.Generic;
+using Api.JetNett.Models.Contracts;
 using Api.JetNett.Models.Types;
 using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface.ServiceModel;
 
 namespace Api.JetNett.Models.Operations
 {
-    [Route("/client", "GET")] //Returns All Clients
-    [Route("/client/{Id}", "GET")] //Returns Client
-    [Route("/client/{Username}/{Password}", "GET")] //Returns Client
-    public class ClientQuery : IReturn<Client>
+    [Api("GET all Clients or GET or DELETE a single Client by Id. Use POST to create a new Client and PUT to update it.")]
+    [Route("/client/{Id}", "GET")]
+    [Route("/client", "GET, POST, PUT, PATCH, DELETE")]
+    [Route("/client/{Username}/{Password}", "GET")]
+    public class ClientRequestDTO : IRequestDTO<Client> ,IReturn<Client>
     {
+        public ClientRequestDTO()
+        {
+            Entity = new Client();
+        }
         public int Id { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public string Name { get; set; }
+        public Client Entity { get; set; }
     }
 
-    public class ClientResponse : IHasResponseStatus
+    public class ClientResponseDTO : IResponseDTO<Client>, IHasResponseStatus
     {
-        public ClientResponse()
+        public ClientResponseDTO()
         {
             this.ResponseStatus = new ResponseStatus();
-            this.Client = new Client();
-            this.Clients = new List<Client>();
+            this.Entity = new Client();
+            this.Entities = new List<Client>();
         }
 
         public ResponseStatus ResponseStatus { get; set; }
 
-        public Client Client { get; set; }
-
-        public List<Client> Clients { get; set; }
+        public Client Entity { get; set; }
+        public List<Client> Entities { get; set; }
     }
 }

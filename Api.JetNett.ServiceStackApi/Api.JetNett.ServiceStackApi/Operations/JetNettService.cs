@@ -16,7 +16,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// GET /metroilinks/{Id}
         /// GET /metroilinks
         /// </summary>
-        public TResponse Get(TRequest request)
+        public virtual TResponse Get(TRequest request)
         {
             if (request.Id == default(int)) {
                 return new TResponse {
@@ -36,7 +36,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// 201 Created
         /// Location: http://hostapi/metroilinks/{newMetroiLinksId}
         /// </summary>
-        public object Post(TModel entity)
+        public virtual object Post(TModel entity)
         {
             var id = Insert(entity);
 
@@ -59,9 +59,9 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// 204 No Content
         /// Location: http://hostapi/metroilinks/{id}
         /// </summary>
-        public object Put(TRequest request)
+        public virtual object Put(TRequest request)
         {
-            Update(request.Entity);
+            UpdateEntity(request.Entity);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
@@ -78,9 +78,9 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// 204 No Content
         /// Location: http://hostapi/metroilinks/{id}
         /// </summary>
-        public object Delete(TRequest request)
+        public virtual object Delete(TRequest request)
         {
-            Delete(request.Id);
+            DeleteById(request.Id);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
