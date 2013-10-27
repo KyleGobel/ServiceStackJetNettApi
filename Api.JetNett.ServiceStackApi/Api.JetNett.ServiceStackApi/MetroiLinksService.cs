@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Data;
+using System.Linq;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
@@ -7,6 +8,8 @@ namespace Api.JetNett.ServiceStackApi
 {
     public class MetroILinksService : JetNettService<MetroiLinkRequestDTO, MetroiLinksResponseDTO, MetroiLinks>
     {
+        public MetroILinksService(IDbConnection dbConnection) : base(dbConnection)
+        { }
         /// <summary>
         /// GET
         /// 

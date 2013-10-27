@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
 using ServiceStack.DataAnnotations;
@@ -8,8 +9,13 @@ using ServiceStack.ServiceInterface;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class OrmLiteRepository<T> : Service, IRepository<T> where T : class, new()
+    public class OrmLiteRepository<T> : IRepository<T> where T : class, new()
     {
+        protected IDbConnection Db { get; set; }
+        public OrmLiteRepository(IDbConnection dbConnection)
+        {
+            Db = dbConnection; 
+        }
         public virtual T GetById(int id)
         {
             return Db.GetByIdOrDefault<T>(id);

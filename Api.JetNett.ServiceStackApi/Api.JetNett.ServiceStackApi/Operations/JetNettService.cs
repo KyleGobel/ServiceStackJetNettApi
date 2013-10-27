@@ -1,17 +1,25 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
 using System.Net;
 using Api.JetNett.Models.Contracts;
 using ServiceStack.Common;
 using ServiceStack.Common.Web;
+using ServiceStack.OrmLite;
+using ServiceStack.ServiceInterface;
 
 namespace Api.JetNett.ServiceStackApi.Operations
 {
-    public class JetNettService<TRequest, TResponse, TModel> : OrmLiteRepository<TModel>
+    public class JetNettService<TRequest, TResponse, TModel> : Service
         where TRequest : IRequestDTO<TModel>
         where TResponse : IResponseDTO<TModel>, new()
         where TModel : class, new()
     {
+        protected OrmLiteRepository<TModel> Repository { get; set; } 
+        public JetNettService(IDbConnectionFactory dbConnectionFactory) 
+        {
+            Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.CreateDbConnection());
+        }
         /// <summary>
         /// GET /metroilinks/{Id}
         /// GET /metroilinks
@@ -20,12 +28,12 @@ namespace Api.JetNett.ServiceStackApi.Operations
         {
             if (request.Id == default(int)) {
                 return new TResponse {
-                    Entities = GetAll()
+                    Entities = Repository.GetAll()
                 };
             }
 
             return new TResponse {
-                Entity = GetById(request.Id)
+                Entity = Repository.GetById(request.Id)
             };
         }
 
@@ -38,10 +46,10 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Post(TModel entity)
         {
-            var id = Insert(entity);
+            var id = Repository.Insert(entity);
 
             var newEntity = new TResponse {
-                Entity = GetById(Convert.ToInt32(id))
+                Entity = Repository.GetById(Convert.ToInt32(id))
             };
 
             return new HttpResult(newEntity) {
@@ -61,7 +69,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Put(TRequest request)
         {
-            UpdateEntity(request.Entity);
+            Repository.UpdateEntity(request.Entity);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
@@ -80,7 +88,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Delete(TRequest request)
         {
-            DeleteById(request.Id);
+            Repository.DeleteById(request.Id);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
