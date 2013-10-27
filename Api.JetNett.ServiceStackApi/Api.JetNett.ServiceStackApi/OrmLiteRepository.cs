@@ -10,7 +10,7 @@ namespace Api.JetNett.ServiceStackApi
     {
         public virtual T GetById(int id)
         {
-            return Db.GetById<T>(id);
+            return Db.GetByIdOrDefault<T>(id);
         }
 
         public virtual List<T> GetAll()

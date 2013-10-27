@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="IRepository.cs" />
     <Compile Include="MetroiLinksService.cs" />
+    <Compile Include="Operations\JetNettService.cs" />
     <Compile Include="OrmLiteRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -113,9 +114,7 @@
       <Name>Api.Jetnett.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Operations\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

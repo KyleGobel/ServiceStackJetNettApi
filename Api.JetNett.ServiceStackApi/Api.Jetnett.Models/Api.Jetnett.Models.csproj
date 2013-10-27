@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRequestDTO.cs" />
     <Compile Include="Operations\Clients.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
     <Compile Include="Types\Active_Jobs.cs" />

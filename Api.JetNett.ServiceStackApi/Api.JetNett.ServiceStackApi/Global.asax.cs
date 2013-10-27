@@ -8,7 +8,7 @@ namespace Api.JetNett.ServiceStackApi
     {
         public class ApiAppHost : AppHostBase
         {
-            public ApiAppHost() : base("JetNett Api Service", typeof(MetroiLinkService).Assembly)
+            public ApiAppHost() : base("JetNett Api Service", typeof(MetroILinksService).Assembly)
             {}
 
             public override void Configure(Funq.Container container)
