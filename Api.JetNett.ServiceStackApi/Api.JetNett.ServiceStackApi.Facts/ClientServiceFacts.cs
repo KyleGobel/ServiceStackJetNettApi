@@ -114,9 +114,29 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 var response = (HttpResult)service.Post(Fixture.Create<TestEntity>());
 
                 Assert.NotNull(response);
-                Assert.Equal(HttpStatusCode.Created, response.StatusCode); 
+                Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+                Assert.IsType(typeof(TestResponseDTO), response.Response);
             }
-            
+
+             [Fact]
+            public void ShouldInsertAnEntity()
+            {
+                var mockRepository = CreateTestRepository();
+
+                var mockRc = new Mock<IRequestContext>();
+                mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
+
+                var service = new JetNettService<
+                  TestRequestDTO,
+                  TestResponseDTO,
+                  TestEntity>
+                  (null, mockRepository.Object,mockRc.Object);
+
+                 var response = (HttpResult)service.Post(Fixture.Create<TestEntity>());
+
+                 //assert the repos insert method was called
+                 mockRepository.Verify(r => r.Insert(It.IsAny<TestEntity>()), Times.Once);
+            }
         }
     }
 }
