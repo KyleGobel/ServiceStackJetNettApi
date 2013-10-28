@@ -6,6 +6,7 @@ using Api.JetNett.Models.Contracts;
 using ServiceStack.Common;
 using ServiceStack.Common.Web;
 using ServiceStack.OrmLite;
+using ServiceStack.ServiceHost;
 using ServiceStack.ServiceInterface;
 
 namespace Api.JetNett.ServiceStackApi.Operations
@@ -16,9 +17,19 @@ namespace Api.JetNett.ServiceStackApi.Operations
         where TModel : class, new()
     {
         protected OrmLiteRepository<TModel> Repository { get; set; } 
-        public JetNettService(IDbConnectionFactory dbConnectionFactory) 
+        public JetNettService(IDbConnectionFactory dbConnectionFactory, OrmLiteRepository<TModel> repository = null, IRequestContext requestContext = null) 
         {
-            Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.Open());
+            //These are injectable for testin
+            if (requestContext != null) {
+                this.RequestContext = requestContext; 
+            }
+
+            if (repository != null) {
+                Repository = repository;
+            }
+            else {
+                Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.Open());
+            }
         }
         /// <summary>
         /// GET /metroilinks/{Id}
