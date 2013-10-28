@@ -1,39 +1,21 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
-using Api.JetNett.Models.Contracts;
-using Api.JetNett.Models.Operations;
-using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
 using Moq;
 using Ploeh.AutoFixture;
 using ServiceStack.Common.Web;
-using ServiceStack.OrmLite;
 using ServiceStack.ServiceHost;
 using Xunit;
 
 namespace Api.JetNett.ServiceStackApi.Facts
 {
-    public class TestEntity
-    { }
-    public class TestRequestDTO : IRequestDTO<TestEntity>
-    {
-        public int Id { get; set; }
-        public TestEntity Entity { get; set; }
-    }
-    public class TestResponseDTO : IResponseDTO<TestEntity>
-    {
-        public TestEntity Entity { get; set; }
-        public List<TestEntity> Entities { get; set; }
-    }
-
     public class JetNettServiceFacts
     {
         public Fixture Fixture { get; set; }
         public JetNettServiceFacts()
         {
-           Fixture = new Fixture(); 
+            Fixture = new Fixture(); 
         }
 
         Mock<OrmLiteRepository<TestEntity>> CreateTestRepository(List<TestEntity> testData = null)
@@ -80,10 +62,10 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 var mockRepository = CreateTestRepository();
 
                 var service = new JetNettService<
-                   TestRequestDTO,
-                   TestResponseDTO,
-                   TestEntity>
-                   (null, mockRepository.Object);
+                    TestRequestDTO,
+                    TestResponseDTO,
+                    TestEntity>
+                    (null, mockRepository.Object);
 
                 //act 
                 var responseDTO = service.Get(new TestRequestDTO() { Id = Fixture.Create<int>() });
@@ -106,10 +88,10 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                  TestRequestDTO,
-                  TestResponseDTO,
-                  TestEntity>
-                  (null, mockRepository.Object,mockRc.Object);
+                    TestRequestDTO,
+                    TestResponseDTO,
+                    TestEntity>
+                    (null, mockRepository.Object,mockRc.Object);
 
                 var response = (HttpResult)service.Post(Fixture.Create<TestEntity>());
 
@@ -118,7 +100,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 Assert.IsType(typeof(TestResponseDTO), response.Response);
             }
 
-             [Fact]
+            [Fact]
             public void ShouldInsertAnEntity()
             {
                 var mockRepository = CreateTestRepository();
@@ -127,15 +109,15 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                  TestRequestDTO,
-                  TestResponseDTO,
-                  TestEntity>
-                  (null, mockRepository.Object,mockRc.Object);
+                    TestRequestDTO,
+                    TestResponseDTO,
+                    TestEntity>
+                    (null, mockRepository.Object,mockRc.Object);
 
-                 var response = (HttpResult)service.Post(Fixture.Create<TestEntity>());
+                var response = (HttpResult)service.Post(Fixture.Create<TestEntity>());
 
-                 //assert the repos insert method was called
-                 mockRepository.Verify(r => r.Insert(It.IsAny<TestEntity>()), Times.Once);
+                //assert the repos insert method was called
+                mockRepository.Verify(r => r.Insert(It.IsAny<TestEntity>()), Times.Once);
             }
         }
     }
