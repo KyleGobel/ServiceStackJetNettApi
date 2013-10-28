@@ -10,7 +10,7 @@ namespace Api.JetNett.ServiceStackApi
         List<T> GetAll();
         List<T> Where(Expression<Func<T, bool>> whereExpression);
         long Insert(T entity);
-        void UpdateEntity(T entity);
-        void DeleteById(int id);
+        void Update(T entity);
+        void Delete(int id);
     }
 }

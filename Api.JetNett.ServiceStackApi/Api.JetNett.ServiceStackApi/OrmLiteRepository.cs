@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
-using System.Runtime.Serialization;
-using ServiceStack.DataAnnotations;
 using ServiceStack.OrmLite;
-using ServiceStack.ServiceInterface;
 
 namespace Api.JetNett.ServiceStackApi
 {
@@ -37,12 +34,12 @@ namespace Api.JetNett.ServiceStackApi
             return Db.GetLastInsertId();
         }
 
-        public virtual void UpdateEntity(T entity)
+        public virtual void Update(T entity)
         {
             Db.Update(entity); 
         }
 
-        public virtual void DeleteById(int id)
+        public virtual void Delete(int id)
         {
             Db.DeleteById<T>(id);
         }

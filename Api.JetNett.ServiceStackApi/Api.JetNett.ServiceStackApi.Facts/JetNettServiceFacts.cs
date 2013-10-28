@@ -28,8 +28,8 @@ namespace Api.JetNett.ServiceStackApi.Facts
             mockTestRepository.Setup(i => i.GetAll()).Returns(testData);
             mockTestRepository.Setup(i => i.GetById(It.IsAny<int>())).Returns(Fixture.Create<TestEntity>());
             mockTestRepository.Setup(i => i.Insert(It.IsAny<TestEntity>())).Returns(Fixture.Create<int>());
-            mockTestRepository.Setup(i => i.UpdateEntity(It.IsAny<TestEntity>()));
-            mockTestRepository.Setup(i => i.DeleteById(It.IsAny<int>()));
+            mockTestRepository.Setup(i => i.Update(It.IsAny<TestEntity>()));
+            mockTestRepository.Setup(i => i.Delete(It.IsAny<int>()));
 
             return mockTestRepository;
         }
@@ -233,7 +233,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 service.Put(entityToUpdate);
 
                 //assert
-                mockRepository.Verify(i => i.UpdateEntity(entityToUpdate.Entity), Times.Once);
+                mockRepository.Verify(i => i.Update(entityToUpdate.Entity), Times.Once);
             }
 
             [Fact]
@@ -282,7 +282,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 service.Delete(requestContaingEntityToDelete);
 
                 //assert
-                mockRepository.Verify(i => i.DeleteById(requestContaingEntityToDelete.Id), Times.Once());
+                mockRepository.Verify(i => i.Delete(requestContaingEntityToDelete.Id), Times.Once());
             }
 
             [Fact]

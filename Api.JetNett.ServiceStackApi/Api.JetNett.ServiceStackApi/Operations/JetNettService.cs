@@ -80,7 +80,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Put(TRequest request)
         {
-            Repository.UpdateEntity(request.Entity);
+            Repository.Update(request.Entity);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
@@ -99,7 +99,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Delete(TRequest request)
         {
-            Repository.DeleteById(request.Id);
+            Repository.Delete(request.Id);
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
