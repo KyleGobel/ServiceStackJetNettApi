@@ -1,13 +1,17 @@
-using System;
-using System.Collections.Generic;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class Community_ZipCodes
+    [Alias("Community_ZipCodes")]
+    public class CommunityZipcodes
     {
-        public int ID { get; set; }
-        public Nullable<int> Page_ID { get; set; }
+        public int Id { get; set; }
+
+        [Alias("Page_ID")]
+        public int? PageId { get; set; }
+
         public string Name { get; set; }
-        public string ZipCode { get; set; }
+
+        public string Zipcode { get; set; }
     }
 }

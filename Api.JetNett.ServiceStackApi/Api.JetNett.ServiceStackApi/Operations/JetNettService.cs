@@ -31,6 +31,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
                 Repository = new OrmLiteRepository<TModel>(dbConnectionFactory.Open());
             }
         }
+
         /// <summary>
         /// GET /metroilinks/{Id}
         /// GET /metroilinks

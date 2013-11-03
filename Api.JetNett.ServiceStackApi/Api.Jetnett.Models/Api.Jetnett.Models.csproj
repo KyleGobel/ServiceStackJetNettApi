@@ -50,15 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IRequestDTO.cs" />
+    <Compile Include="Operations\AdGroup.cs" />
     <Compile Include="Operations\Clients.cs" />
+    <Compile Include="Operations\CommunityZipcodes.cs" />
+    <Compile Include="Operations\Link.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
+    <Compile Include="Operations\Pages.cs" />
     <Compile Include="Types\Active_Jobs.cs" />
     <Compile Include="Types\Ad.cs" />
     <Compile Include="Types\AdGroup.cs" />
     <Compile Include="Types\admin.cs" />
     <Compile Include="Types\Ads_Model.cs" />
     <Compile Include="Types\Ad_Assignments.cs" />
-    <Compile Include="Types\Ad_Page_Relationship.cs" />
+    <Compile Include="Types\AdPageRelationship.cs" />
     <Compile Include="Types\Ad_Tracker.cs" />
     <Compile Include="Types\Ad_View_Tracker.cs" />
     <Compile Include="Types\agentPrice.cs" />

@@ -31,6 +31,6 @@ namespace Api.JetNett.Models.Types
         public string OriginationPageTarget { get; set; }
         public string SeoMetaKeys { get; set; }
         public string SeoMetaDesc { get; set; }
-        public Nullable<int> FontSizePx { get; set; }
+        public int ? FontSizePx { get; set; }
     }
 }

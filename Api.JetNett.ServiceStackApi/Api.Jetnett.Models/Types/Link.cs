@@ -1,25 +1,24 @@
-using System;
-using System.Collections.Generic;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class Link
+    [Alias("Links")]
+    public class Link
     {
-        public Link()
-        {
-            this.Bad_Links = new List<Bad_Links>();
-            this.Reported_Links = new List<Reported_Links>();
-        }
+        public int Id { get; set; }
 
-        public int ID { get; set; }
-        public int Page_ID { get; set; }
+        [Alias("Page_ID")]
+        public int PageId { get; set; }
         public int Position { get; set; }
-        public bool Is_Link { get; set; }
+
+        [Alias("Is_Link")]
+        public bool IsLink { get; set; }
+
         public string Title { get; set; }
-        public string URL { get; set; }
+
+        [Alias("URL")]
+        public string Url { get; set; }
+
         public string Target { get; set; }
-        public virtual ICollection<Bad_Links> Bad_Links { get; set; }
-        public virtual Page Page { get; set; }
-        public virtual ICollection<Reported_Links> Reported_Links { get; set; }
     }
 }

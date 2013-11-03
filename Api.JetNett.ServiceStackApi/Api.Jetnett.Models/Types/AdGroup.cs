@@ -1,23 +1,21 @@
-using System;
-using System.Collections.Generic;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class AdGroup
+    public class AdGroup
     {
-        public AdGroup()
-        {
-            this.Ad_Assignments = new List<Ad_Assignments>();
-            this.Ad_Page_Relationship = new List<Ad_Page_Relationship>();
-        }
+        public int Id { get; set; }
 
-        public int ID { get; set; }
         public string Name { get; set; }
+
         public string Ads { get; set; }
-        public int Viewport_Size { get; set; }
+
+        [Alias("Viewport_Size")]
+        public int ViewportSize { get; set; }
+
         public int Seed { get; set; }
-        public Nullable<int> Fallback_AdGroup { get; set; }
-        public virtual ICollection<Ad_Assignments> Ad_Assignments { get; set; }
-        public virtual ICollection<Ad_Page_Relationship> Ad_Page_Relationship { get; set; }
+
+        [Alias("Fallback_AdGroup")]
+        public int? FallbackAdGroup { get; set; }
     }
 }
