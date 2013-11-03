@@ -6,31 +6,45 @@ using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class AdGroupService : JetNettService<AdGroupRequestDTO,AdGroupResponseDTO,AdGroup>
+    public sealed class AdGroupService : JetNettService<AdGroupRequestDTO,AdGroupResponseDTO,AdGroup>
     {
+        OrmLiteRepository<AdPageRelationship> RelationshipRepository { get; set; }
         public AdGroupService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
-        { }
+        {
+            RelationshipRepository = new OrmLiteRepository<AdPageRelationship>(Db);
+        }
 
         public override AdGroupResponseDTO Get(AdGroupRequestDTO request)
         {
-            var relationshipRepository = new OrmLiteRepository<AdPageRelationship>(Db);
             if (request.ClientId != default(int) && request.PageId != default(int))
             {
-                var relationshipEntry = relationshipRepository.Where(
+                //attempt to get by both client and page
+                var entry = RelationshipRepository.Where(
                     i => i.ClientId == request.ClientId && i.PageId == request.PageId)
                     .SingleOrDefault();
 
-                if (relationshipEntry == null)
-                    return new AdGroupResponseDTO();
+                if (entry != null)
+                    return MakeResponse(entry);
 
-                return new AdGroupResponseDTO {
-                    Entity = Repository.Where(i => i.Id == relationshipEntry.AdGroup).SingleOrDefault()
-                };
+                //attempt by just page
+                entry = GetByPageId(request.PageId);
+                
+                if (entry != null)
+                    return MakeResponse(entry);
+
+                //attempt by just client
+                entry = GetByClientId(request.ClientId);
+
+                if (entry != null)
+                    return MakeResponse(entry);
+
+                //nothing found
+                return new AdGroupResponseDTO();
             }
 
             if (request.PageId != default(int))
             {
-                var relationshipEntry = relationshipRepository.Where(i => i.PageId == request.PageId).FirstOrDefault();
+                var relationshipEntry = RelationshipRepository.Where(i => i.PageId == request.PageId).FirstOrDefault();
 
                 if (relationshipEntry == null)
                     return new AdGroupResponseDTO();
@@ -42,7 +56,7 @@ namespace Api.JetNett.ServiceStackApi
 
             if (request.ClientId != default(int))
             {
-                var relationshipEntry = relationshipRepository.Where(i => i.ClientId == request.ClientId).FirstOrDefault();
+                var relationshipEntry = RelationshipRepository.Where(i => i.ClientId == request.ClientId).FirstOrDefault();
 
                 if (relationshipEntry == null)
                     return new AdGroupResponseDTO();
@@ -53,6 +67,21 @@ namespace Api.JetNett.ServiceStackApi
             }
 
             return base.Get(request);
+        }
+
+        AdGroupResponseDTO MakeResponse(AdPageRelationship adPageRelationship)
+        {
+            return new AdGroupResponseDTO { Entity = Repository.GetById(adPageRelationship.AdGroup.GetValueOrDefault(0)) };
+        }
+
+        private AdPageRelationship GetByClientId(int clientId)
+        {
+            return RelationshipRepository.Where(i => i.ClientId == clientId).FirstOrDefault(); 
+        }
+
+        private AdPageRelationship GetByPageId(int pageId)
+        {
+            return RelationshipRepository.Where(i => i.PageId == pageId).FirstOrDefault(); 
         }
     }
 }
