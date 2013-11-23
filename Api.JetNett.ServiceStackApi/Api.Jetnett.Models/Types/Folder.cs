@@ -2,6 +2,7 @@ using ServiceStack.DataAnnotations;
 
 namespace Api.JetNett.Models.Types
 {
+    [Alias("Folders")]
     public class Folder
     {
         public int Id { get; set; }
