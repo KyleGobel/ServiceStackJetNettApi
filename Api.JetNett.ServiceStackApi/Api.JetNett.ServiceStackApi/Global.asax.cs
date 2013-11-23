@@ -1,5 +1,10 @@
 ﻿using System;
+using ServiceStack.CacheAccess;
+using ServiceStack.CacheAccess.Providers;
 using ServiceStack.OrmLite;
+using ServiceStack.ServiceInterface;
+using ServiceStack.ServiceInterface.Auth;
+using ServiceStack.ServiceInterface.Cors;
 using ServiceStack.WebHost.Endpoints;
 
 namespace Api.JetNett.ServiceStackApi
@@ -14,11 +19,38 @@ namespace Api.JetNett.ServiceStackApi
             public override void Configure(Funq.Container container)
             {
                 //Configure our application
-                const string connectionString = @"Data Source=.\SQLExpress;Initial Catalog=DailyEZDevelopment;Integrated Security=True";
+                const string localConnectionString = @"Data Source=.\SQLExpress;Initial Catalog=DailyEZDevelopment;Integrated Security=True";
+                const string connectionString = @"Server=tcp:ogt6gud01l.database.windows.net,1433;Database=Jetnett_Data;User ID=jetnett_admin@ogt6gud01l;Password=Mad15onmetr0;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
                 var dbConnectionFactory = new OrmLiteConnectionFactory(connectionString,
                     SqlServerDialect.Provider);
 
+                Plugins.Add(new AuthFeature(() => new AuthUserSession(),
+                    new IAuthProvider[] {
+                        new BasicAuthProvider()
+                    }));
+
+                Plugins.Add(new CorsFeature());
+                container.Register<ICacheClient>(new MemoryCacheClient());
+
+                var userRepo = new InMemoryAuthRepository();
+                container.Register<IUserAuthRepository>(userRepo);
                 container.Register<IDbConnectionFactory>(dbConnectionFactory);
+
+                string hash;
+                string salt;
+
+                new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt);
+
+                userRepo.CreateUserAuth(new UserAuth {
+                    Id = 1,
+                    DisplayName = "Api User",
+                    Email = "jetnettone@gmail.com",
+                    UserName = "ApiUser",
+                    FirstName = "Api",
+                    LastName = "User",
+                    PasswordHash = hash,
+                    Salt = salt
+                }, "ssapi");
             }
         }
 

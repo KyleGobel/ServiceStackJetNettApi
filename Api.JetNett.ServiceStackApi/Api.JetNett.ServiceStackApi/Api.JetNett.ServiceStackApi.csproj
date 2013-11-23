@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="AdGroupService.cs" />
     <Compile Include="ClientService.cs" />
+    <Compile Include="FolderService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

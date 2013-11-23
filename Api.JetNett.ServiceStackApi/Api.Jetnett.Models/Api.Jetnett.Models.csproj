@@ -53,6 +53,7 @@
     <Compile Include="Operations\AdGroup.cs" />
     <Compile Include="Operations\Clients.cs" />
     <Compile Include="Operations\CommunityZipcodes.cs" />
+    <Compile Include="Operations\Folder.cs" />
     <Compile Include="Operations\Link.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
     <Compile Include="Operations\Pages.cs" />

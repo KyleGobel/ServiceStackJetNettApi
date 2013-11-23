@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using Api.JetNett.Models.Types;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class Folder
+    public class Folder
     {
-        public Folder()
-        {
-            this.Folders1 = new List<Folder>();
-            this.Pages = new List<Page>();
-        }
-
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<int> Parent_Folder_ID { get; set; }
-        public virtual ICollection<Folder> Folders1 { get; set; }
-        public virtual Folder Folder1 { get; set; }
-        public virtual ICollection<Page> Pages { get; set; }
+
+        [Alias("Parent_Folder_ID")]
+        public int? ParentFolderId { get; set; }
     }
 }
