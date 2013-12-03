@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdGroupService.cs" />
+    <Compile Include="BadLinkService.cs" />
     <Compile Include="ClientService.cs" />
     <Compile Include="FolderService.cs" />
     <Compile Include="Global.asax.cs">

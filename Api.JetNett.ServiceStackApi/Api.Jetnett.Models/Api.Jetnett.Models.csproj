@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Contracts\IRequestDTO.cs" />
     <Compile Include="Operations\AdGroup.cs" />
+    <Compile Include="Operations\BadLink.cs" />
     <Compile Include="Operations\Clients.cs" />
     <Compile Include="Operations\CommunityZipcodes.cs" />
     <Compile Include="Operations\Folder.cs" />

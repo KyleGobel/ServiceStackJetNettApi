@@ -1,23 +1,36 @@
-using System;
-using System.Collections.Generic;
-using Api.JetNett.Models.Types;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class Bad_Links
+    [Alias("Bad_Links")]
+    public class BadLink
     {
-        public int ID { get; set; }
-        public int Link_ID { get; set; }
-        public int Original_Page_ID { get; set; }
-        public int Original_Position { get; set; }
-        public bool Is_Suspended { get; set; }
-        public bool Is_Elevated { get; set; }
-        public int Status_Code { get; set; }
+        public int Id { get; set; }
+
+        [Alias("Link_ID")]
+        public int LinkId { get; set; }
+
+        [Alias("Original_Page_ID")]
+        public int OriginalPageId { get; set; }
+
+        [Alias("Original_Position")]
+        public int OriginalPosition { get; set; }
+
+        [Alias("Is_Suspended")]
+        public bool IsSuspended { get; set; }
+
+        [Alias("Is_Elevated")]
+        public bool IsElevated { get; set; }
+
+        [Alias("Status_Code")]
+        public int StatusCode { get; set; }
         public string Message { get; set; }
         public string Comment { get; set; }
-        public string Screen_Shot_URL { get; set; }
-        public System.DateTime Date_Reported { get; set; }
-        public virtual Page Page { get; set; }
-        public virtual Link Link { get; set; }
+
+        [Alias("Screen_Shot_URL")]
+        public string ScreenShotUrl { get; set; }
+
+        [Alias("Date_Reported")]
+        public System.DateTime DateReported { get; set; }
     }
 }
