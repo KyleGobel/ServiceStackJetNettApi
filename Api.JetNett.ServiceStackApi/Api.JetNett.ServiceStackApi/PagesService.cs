@@ -44,7 +44,7 @@ namespace Api.JetNett.ServiceStackApi
             var folder = Db.Where<Folder>(x => x.Id == folderId).SingleOrDefault();
             if (folder != null)
             {
-                path = path.Insert(0, folder.Name + ",");
+                path = path.Insert(0, folder.Name + ">");
                 return GetFolderPath(folder.ParentFolderId, path);
             }
             return "";
