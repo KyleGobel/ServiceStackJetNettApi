@@ -5,8 +5,8 @@ using Api.JetNett.ServiceStackApi.Facts.Common;
 using Api.JetNett.ServiceStackApi.Operations;
 using Moq;
 using Ploeh.AutoFixture;
-using ServiceStack.Common.Web;
-using ServiceStack.ServiceHost;
+using ServiceStack;
+using ServiceStack.Web;
 using Xunit;
 
 namespace Api.JetNett.ServiceStackApi.Facts
@@ -125,7 +125,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -149,7 +149,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 var intInsertReturns = Fixture.Create<int>();
                 mockRepository.Setup(i => i.Insert(It.IsAny<TestEntity>())).Returns(intInsertReturns);
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -170,7 +170,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -196,7 +196,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -219,7 +219,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -242,7 +242,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -268,7 +268,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -291,7 +291,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
@@ -314,7 +314,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 //arrange
                 var mockRepository = CreateTestRepository();
 
-                var mockRc = new Mock<IRequestContext>();
+                var mockRc = new Mock<IRequest>();
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<

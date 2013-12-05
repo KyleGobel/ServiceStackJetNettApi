@@ -1,18 +1,15 @@
 ﻿using System;
-using ServiceStack.CacheAccess;
-using ServiceStack.CacheAccess.Providers;
+using System.Configuration;
+using ServiceStack;
+using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.ServiceInterface;
-using ServiceStack.ServiceInterface.Auth;
-using ServiceStack.ServiceInterface.Cors;
-using ServiceStack.WebHost.Endpoints;
+
 
 namespace Api.JetNett.ServiceStackApi
 {
     public class Global : System.Web.HttpApplication
     {
-        public class ApiAppHost : AppHostBase
-        {
+        public class ApiAppHost : AppHostHttpListenerBase        {
             public ApiAppHost() : base("JetNett Api Service", typeof(ApiAppHost).Assembly)
             {}
 
@@ -20,37 +17,37 @@ namespace Api.JetNett.ServiceStackApi
             {
                 //Configure our application
                 const string localConnectionString = @"Data Source=.\SQLExpress;Initial Catalog=DailyEZDevelopment;Integrated Security=True";
-                const string connectionString = @"Server=tcp:ogt6gud01l.database.windows.net,1433;Database=Jetnett_Data;User ID=jetnett_admin@ogt6gud01l;Password=Mad15onmetr0;Trusted_Connection=False;Encrypt=True;Connection Timeout=30;";
+                var connectionString = ConfigurationManager.ConnectionStrings["azureJetnettConnectionString"].ConnectionString;
                 var dbConnectionFactory = new OrmLiteConnectionFactory(connectionString,
                     SqlServerDialect.Provider);
 
-                Plugins.Add(new AuthFeature(() => new AuthUserSession(),
-                    new IAuthProvider[] {
-                        new BasicAuthProvider()
-                    }));
+                //Plugins.Add(new AuthFeature(() => new AuthUserSession(),
+                //    new IAuthProvider[] {
+                //        new BasicAuthProvider()
+                //    }));
 
                 Plugins.Add(new CorsFeature());
-                container.Register<ICacheClient>(new MemoryCacheClient());
+                //container.Register<ICacheClient>(new MemoryCacheClient());
 
-                var userRepo = new InMemoryAuthRepository();
-                container.Register<IUserAuthRepository>(userRepo);
+                //var userRepo = new InMemoryAuthRepository();
+                //container.Register<IUserAuthRepository>(userRepo);
                 container.Register<IDbConnectionFactory>(dbConnectionFactory);
 
-                string hash;
-                string salt;
+                //string hash;
+                //string salt;
 
-                new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt);
+                //new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt);
 
-                userRepo.CreateUserAuth(new UserAuth {
-                    Id = 1,
-                    DisplayName = "Api User",
-                    Email = "jetnettone@gmail.com",
-                    UserName = "ApiUser",
-                    FirstName = "Api",
-                    LastName = "User",
-                    PasswordHash = hash,
-                    Salt = salt
-                }, "ssapi");
+                //userRepo.CreateUserAuth(new UserAuth {
+                //    Id = 1,
+                //    DisplayName = "Api User",
+                //    Email = "jetnettone@gmail.com",
+                //    UserName = "ApiUser",
+                //    FirstName = "Api",
+                //    LastName = "User",
+                //    PasswordHash = hash,
+                //    Salt = salt
+                //}, "ssapi");
             }
         }
 

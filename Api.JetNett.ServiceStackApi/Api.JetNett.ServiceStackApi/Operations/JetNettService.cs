@@ -3,11 +3,11 @@ using System.Data;
 using System.Globalization;
 using System.Net;
 using Api.JetNett.Models.Contracts;
+using ServiceStack;
 using ServiceStack.Common;
-using ServiceStack.Common.Web;
+using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.ServiceHost;
-using ServiceStack.ServiceInterface;
+using ServiceStack.Web;
 
 namespace Api.JetNett.ServiceStackApi.Operations
 {
@@ -17,11 +17,12 @@ namespace Api.JetNett.ServiceStackApi.Operations
         where TModel : class, new()
     {
         protected OrmLiteRepository<TModel> Repository { get; set; } 
-        public JetNettService(IDbConnectionFactory dbConnectionFactory, OrmLiteRepository<TModel> repository = null, IRequestContext requestContext = null) 
+        public JetNettService(IDbConnectionFactory dbConnectionFactory, OrmLiteRepository<TModel> repository = null, IRequest requestContext = null) 
         {
             //These are injectable for testin
-            if (requestContext != null) {
-                this.RequestContext = requestContext; 
+            if (requestContext != null)
+            {
+               this.Request = requestContext; 
             }
 
             if (repository != null) {
@@ -67,7 +68,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
             return new HttpResult(newEntity) {
                 StatusCode = HttpStatusCode.Created,
                 Headers = {
-                            { HttpHeaders.Location, this.RequestContext.AbsoluteUri.CombineWith(id.ToString(CultureInfo.InvariantCulture)) }
+                            { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(id.ToString(CultureInfo.InvariantCulture)) }
                         }
             };
         }
@@ -86,7 +87,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
                 Headers = {
-                       { HttpHeaders.Location, this.RequestContext.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture))}
+                       { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture))}
                    }
             };
         }
@@ -105,7 +106,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
                 Headers = {
-                          { HttpHeaders.Location, this.RequestContext.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture)) } 
+                          { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture)) } 
                        }
             };
         }

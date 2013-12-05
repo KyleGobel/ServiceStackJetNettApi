@@ -1,8 +1,8 @@
 ﻿using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
+using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.ServiceHost;
 
 namespace Api.JetNett.ServiceStackApi
 {

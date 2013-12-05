@@ -2,8 +2,8 @@
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
+using ServiceStack.Data;
 using ServiceStack.OrmLite;
-using ServiceStack.ServiceHost;
 
 namespace Api.JetNett.ServiceStackApi
 {
@@ -41,7 +41,7 @@ namespace Api.JetNett.ServiceStackApi
             if (folderId == null || folderId == 0)
                 return path;
 
-            var folder = Db.Where<Folder>(x => x.Id == folderId).SingleOrDefault();
+            var folder = Db.SingleWhere<Folder>("FolderID", folderId);
             if (folder != null)
             {
                 path = path.Insert(0, folder.Name + ">");

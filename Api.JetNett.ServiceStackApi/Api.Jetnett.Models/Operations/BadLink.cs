@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Api.JetNett.Models.Contracts;
 using Api.JetNett.Models.Types;
-using ServiceStack.ServiceHost;
+using ServiceStack;
 
 namespace Api.JetNett.Models.Operations
 {

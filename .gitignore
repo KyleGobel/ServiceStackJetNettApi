@@ -208,6 +208,9 @@ pip-log.txt
 .coverage
 .tox
 
+#webconfig
+*web.config
+
 #Translations
 *.mo
 
