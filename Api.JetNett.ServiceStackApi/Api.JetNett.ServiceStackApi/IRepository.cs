@@ -6,11 +6,11 @@ namespace Api.JetNett.ServiceStackApi
 {
     public interface IRepository<T> where T : class
     {
-        T GetById(int id);
-        List<T> GetAll();
-        List<T> Where(Expression<Func<T, bool>> whereExpression);
+        IEnumerable<T> GetByIds(IEnumerable<int> id);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> Where(Expression<Func<T, bool>> whereExpression);
         long Insert(T entity);
         void Update(T entity);
-        void Delete(int id);
+        void Delete(IEnumerable<int> id);
     }
 }

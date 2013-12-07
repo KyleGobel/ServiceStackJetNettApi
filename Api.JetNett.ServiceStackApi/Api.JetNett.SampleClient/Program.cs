@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
-using RestSharp;
 using ServiceStack.Text;
 using System;
 using System.Collections.Generic;

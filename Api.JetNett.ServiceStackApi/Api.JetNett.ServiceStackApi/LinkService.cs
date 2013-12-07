@@ -1,4 +1,5 @@
-﻿using Api.JetNett.Models.Operations;
+﻿using System.Collections.Generic;
+using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
 using ServiceStack.Data;

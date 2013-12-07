@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\IRequestDTO.cs" />
+    <Compile Include="Mixins\ObjectMixins.cs" />
     <Compile Include="Operations\AdGroup.cs" />
     <Compile Include="Operations\BadLink.cs" />
     <Compile Include="Operations\Clients.cs" />

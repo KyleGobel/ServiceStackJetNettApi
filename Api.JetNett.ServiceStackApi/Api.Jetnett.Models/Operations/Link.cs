@@ -10,12 +10,12 @@ using ServiceStack;
 namespace Api.JetNett.Models.Operations
 {
     [Api("GET all links or GET or DELETE a single Metro iLink by Id. Use POST to create a new link and PUT to update it.")]
-    [Route("/links/{Id}", "GET")]
+    [Route("/links/{Ids}", "GET")]
     [Route("/links", "GET, POST, PUT, PATCH, DELETE")]
     [Route("/links/page/{PageId}", "GET")]
     public class LinkRequestDTO : IRequestDTO<Link>, IReturn<LinkResponseDTO>
     {
-        public int Id { get; set; }
+        public IEnumerable<int> Ids { get; set; } 
         public Link Entity { get; set; }
         public int PageId { get; set; }
     }
@@ -23,6 +23,6 @@ namespace Api.JetNett.Models.Operations
     public class LinkResponseDTO : IResponseDTO<Link>
     {
         public Link Entity { get; set; }
-        public List<Link> Entities { get; set; }
+        public IEnumerable<Link> Entities { get; set; }
     }
 }

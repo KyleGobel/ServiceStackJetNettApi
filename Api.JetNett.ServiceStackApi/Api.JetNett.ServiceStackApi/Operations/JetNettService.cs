@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Net;
 using Api.JetNett.Models.Contracts;
+using Api.JetNett.Models.Mixins;
 using ServiceStack;
 using ServiceStack.Common;
 using ServiceStack.Data;
@@ -39,14 +42,15 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual TResponse Get(TRequest request)
         {
-            if (request.Id == default(int)) {
-                return new TResponse {
-                    Entities = Repository.GetAll()
-                };
+            if (request.Ids != default(List<int>))
+            {
+               return new TResponse {
+                   Entities = Repository.GetByIds(request.Ids)
+               }; 
             }
-
+          
             return new TResponse {
-                Entity = Repository.GetById(request.Id)
+                Entities = Repository.GetAll()
             };
         }
 
@@ -62,7 +66,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
             var id = Repository.Insert(entity);
 
             var newEntity = new TResponse {
-                Entity = Repository.GetById(Convert.ToInt32(id))
+                Entities = new List<TModel> { Repository.GetByIds(Convert.ToInt32(id).ToEnumerable()).SingleOrDefault() }
             };
 
             return new HttpResult(newEntity) {
@@ -87,7 +91,7 @@ namespace Api.JetNett.ServiceStackApi.Operations
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
                 Headers = {
-                       { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture))}
+                       { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Ids.Single().ToString(CultureInfo.InvariantCulture))}
                    }
             };
         }
@@ -101,12 +105,13 @@ namespace Api.JetNett.ServiceStackApi.Operations
         /// </summary>
         public virtual object Delete(TRequest request)
         {
-            Repository.Delete(request.Id);
+            Repository.Delete(request.Ids);
+            
 
             return new HttpResult {
                 StatusCode = HttpStatusCode.NoContent,
                 Headers = {
-                          { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Id.ToString(CultureInfo.InvariantCulture)) } 
+                          { HttpHeaders.Location, this.Request.AbsoluteUri.CombineWith(request.Ids.ToString()) } 
                        }
             };
         }

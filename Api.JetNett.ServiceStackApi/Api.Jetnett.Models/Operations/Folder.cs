@@ -10,7 +10,7 @@ using ServiceStack;
 namespace Api.JetNett.Models.Operations
 {
     [Api("GET all Clients or GET or DELETE a single Client by Id. Use POST to create a new Client and PUT to update it.")]
-    [Route("/folder/{Id}", "GET")]
+    [Route("/folder/{Ids}", "GET")]
     [Route("/folder", "GET, POST, PUT, PATCH, DELETE")]
     [Route("/folder/children/{ParentId}", "GET")]
     public class FolderRequestDTO : IRequestDTO<Folder>, IReturn<Folder>
@@ -19,7 +19,7 @@ namespace Api.JetNett.Models.Operations
         {
             Entity = new Folder();
         }
-        public int Id { get; set; }
+        public IEnumerable<int> Ids { get; set; }
 
         public int ParentId { get; set; }
         public Folder Entity { get; set; }
@@ -37,6 +37,6 @@ namespace Api.JetNett.Models.Operations
         public ResponseStatus ResponseStatus { get; set; }
 
         public Folder Entity { get; set; }
-        public List<Folder> Entities { get; set; }
+        public IEnumerable<Folder> Entities { get; set; }
     }
 }

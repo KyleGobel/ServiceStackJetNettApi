@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Api.JetNett.Models.Mixins;
 using Api.JetNett.ServiceStackApi.Facts.Common;
 using Api.JetNett.ServiceStackApi.Operations;
 using Moq;
@@ -26,10 +27,10 @@ namespace Api.JetNett.ServiceStackApi.Facts
             var mockTestRepository = new Mock<OrmLiteRepository<TestEntity>>(null);
 
             mockTestRepository.Setup(i => i.GetAll()).Returns(testData);
-            mockTestRepository.Setup(i => i.GetById(It.IsAny<int>())).Returns(Fixture.Create<TestEntity>());
-            mockTestRepository.Setup(i => i.Insert(It.IsAny<TestEntity>())).Returns(Fixture.Create<int>());
+            mockTestRepository.Setup(i => i.GetByIds(It.IsAny<IEnumerable<int>>())).Returns((IEnumerable<int> x) => testData.Where(td => x.Contains(td.Id) ));
+            mockTestRepository.Setup(i => i.Insert(It.IsAny<TestEntity>())).Returns((TestEntity x) => x.Id);
             mockTestRepository.Setup(i => i.Update(It.IsAny<TestEntity>()));
-            mockTestRepository.Setup(i => i.Delete(It.IsAny<int>()));
+            mockTestRepository.Setup(i => i.Delete(It.IsAny<IEnumerable<int>>()));
 
             return mockTestRepository;
         }
@@ -57,8 +58,11 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 Assert.Equal(testData, responseDTO.Entities);
             }
 
+
+         
+
             [Fact]
-            public void ShouldFillEntityPropertyOfDTOWhenCalledWithNonDefaultId()
+            public void ShouldCallReposGetAllWhenRequestDTOIdsIsDefault()
             {
                 //arrange
                 var mockRepository = CreateTestRepository();
@@ -70,46 +74,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                     (null, mockRepository.Object);
 
                 //act 
-                var responseDTO = service.Get(new TestRequestDTO() { Id = Fixture.Create<int>() });
-
-                //assert
-                Assert.NotNull(responseDTO);
-                Assert.NotNull(responseDTO.Entity);
-            }
-
-            [Fact]
-            public void ShouldCallRepositorysGetByIdWhenRequestDTOIdIsNotZero()
-            {
-                //arrange
-                var mockRepository = CreateTestRepository();
-
-                var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
-                    TestEntity>
-                    (null, mockRepository.Object);
-
-                //act 
-                service.Get(new TestRequestDTO() { Id = Fixture.Create<int>() });
-
-                //assert
-                mockRepository.Verify(r => r.GetById(It.IsAny<int>()),Times.Once);
-            }
-
-            [Fact]
-            public void ShouldCallReposGetAllWhenRequestDTOIdIsZero()
-            {
-                //arrange
-                var mockRepository = CreateTestRepository();
-
-                var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
-                    TestEntity>
-                    (null, mockRepository.Object);
-
-                //act 
-                service.Get(new TestRequestDTO() { Id = 0 });
+                service.Get(new TestRequestDTO());
 
                 //assert
                 mockRepository.Verify(r => r.GetAll(),Times.Once);
@@ -204,13 +169,14 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 TestResponseDTO,
                 TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdate = Fixture.Create<TestRequestDTO>();
+                var entityToUpdateRequest = Fixture.Build<TestRequestDTO>()
+                  .With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
 
                 //act
-                var response = (HttpResult)service.Put(entityToUpdate);
+                var response = (HttpResult)service.Put(entityToUpdateRequest);
 
                 //assert
-                Assert.Equal("hostapi/testEntity/" + entityToUpdate.Id, response.Headers["Location"]);
+                Assert.Equal("hostapi/testEntity/" + entityToUpdateRequest.Ids.Single(), response.Headers["Location"]);
             }
 
             [Fact]
@@ -227,13 +193,14 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 TestResponseDTO,
                 TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdate = Fixture.Create<TestRequestDTO>();
+                var entityToUpdateRequest = Fixture.Build<TestRequestDTO>()
+                    .With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
 
                 //act
-                service.Put(entityToUpdate);
+                service.Put(entityToUpdateRequest);
 
                 //assert
-                mockRepository.Verify(i => i.Update(entityToUpdate.Entity), Times.Once);
+                mockRepository.Verify(i => i.Update(entityToUpdateRequest.Entity), Times.Once);
             }
 
             [Fact]
@@ -250,10 +217,11 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 TestResponseDTO,
                 TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdate = Fixture.Create<TestRequestDTO>();
+                var entityToUpdateRequest =
+                    Fixture.Build<TestRequestDTO>().With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
 
                 //act
-                var response = (HttpResult)service.Put(entityToUpdate);
+                var response = (HttpResult)service.Put(entityToUpdateRequest);
 
                 //assert
                 Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);               
@@ -282,7 +250,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 service.Delete(requestContaingEntityToDelete);
 
                 //assert
-                mockRepository.Verify(i => i.Delete(requestContaingEntityToDelete.Id), Times.Once());
+                mockRepository.Verify(i => i.Delete(requestContaingEntityToDelete.Ids), Times.Once());
             }
 
             [Fact]
@@ -328,7 +296,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 var response = (HttpResult)service.Delete(requestContaingEntityToDelete);
 
                 //assert
-                Assert.Equal("hostapi/testEntity/" + requestContaingEntityToDelete.Id, response.Headers["Location"]);   
+                Assert.Equal("hostapi/testEntity/" + requestContaingEntityToDelete.Ids, response.Headers["Location"]);   
             }
         }
     }

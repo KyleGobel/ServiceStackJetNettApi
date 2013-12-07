@@ -13,17 +13,18 @@ namespace Api.JetNett.ServiceStackApi
         {
             Db = dbConnection; 
         }
-        public virtual T GetById(int id)
-        {
-            return Db.SingleById<T>(id);
-        }
-
-        public virtual List<T> GetAll()
+        
+        public virtual IEnumerable<T> GetAll()
         {
             return Db.Select<T>();
         }
 
-        public virtual List<T> Where(Expression<Func<T, bool>> whereExpression)
+        public virtual IEnumerable<T> GetByIds(IEnumerable<int> ids)
+        {
+            return Db.SelectByIds<T>(ids);
+        }
+
+        public virtual IEnumerable<T> Where(Expression<Func<T, bool>> whereExpression)
         {
             return Db.Where<T>(whereExpression);
         }
@@ -38,9 +39,9 @@ namespace Api.JetNett.ServiceStackApi
             Db.Update(entity); 
         }
 
-        public virtual void Delete(int id)
+        public virtual void Delete(IEnumerable<int> ids)
         {
-            Db.DeleteById<T>(id);
+            Db.DeleteByIds<T>(ids);
         }
     }
 }

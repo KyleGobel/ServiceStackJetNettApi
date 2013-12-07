@@ -7,17 +7,16 @@ namespace Api.JetNett.Models.Operations
 {
 
     [Api("Standard BadLinks Entity Service.")]
-    [Route("/badlink/{Id}", "GET")]
+    [Route("/badlink/{Ids}", "GET")]
     [Route("/badlink", "GET, POST, PUT, PATCH, DELETE")]
-    public class BadLinkRequestDTO : IRequestDTO<BadLink>
+    public class BadLinkRequestDTO : IRequestDTO<BadLink>, IReturn<BadLinkResponseDTO>
     {
-        public int Id { get; set; }
+        public IEnumerable<int> Ids { get; set; }
         public BadLink Entity { get; set; }
     }
 
     public class BadLinkResponseDTO : IResponseDTO<BadLink>
     {
-        public BadLink Entity { get; set; }
-        public List<BadLink> Entities { get; set; }
+        public IEnumerable<BadLink> Entities { get; set; }
     }
 }

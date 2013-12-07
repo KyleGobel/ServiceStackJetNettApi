@@ -7,7 +7,7 @@ namespace Api.JetNett.Models.Operations
 {
   
         [Api("GET all Pages or GET or DELETE a single Page by Id. Use POST to create a new Page and PUT to update it.")]
-        [Route("/page/{Id}", "GET")]
+        [Route("/page/{Ids}", "GET")]
         [Route("/page", "GET, POST, PUT, PATCH, DELETE")]
         [Route("/page/folder/{folderId}", "GET")]
         [Route("/page/path/{pathPageId}", "GET")]
@@ -17,7 +17,7 @@ namespace Api.JetNett.Models.Operations
             {
                 Entity = new Page();
             }
-            public int Id { get; set; }
+            public IEnumerable<int> Ids { get; set; }
             public int PathPageId { get; set; }
             public int FolderId { get; set; }
             public string Username { get; set; }
@@ -37,6 +37,7 @@ namespace Api.JetNett.Models.Operations
             public ResponseStatus ResponseStatus { get; set; }
 
             public Page Entity { get; set; }
-            public List<Page> Entities { get; set; }
+
+            public IEnumerable<Page> Entities { get; set; }
         } 
 }

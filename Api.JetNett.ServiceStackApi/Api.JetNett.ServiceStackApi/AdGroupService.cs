@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
@@ -51,7 +52,7 @@ namespace Api.JetNett.ServiceStackApi
                     return new AdGroupResponseDTO();
 
                 return new AdGroupResponseDTO {
-                        Entity = Repository.GetById(relationshipEntry.AdGroup.GetValueOrDefault())
+                        Entities = Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable())
                 };
             }
 
@@ -63,7 +64,7 @@ namespace Api.JetNett.ServiceStackApi
                     return new AdGroupResponseDTO();
 
                 return new AdGroupResponseDTO {
-                        Entity = Repository.GetById(relationshipEntry.AdGroup.GetValueOrDefault())
+                        Entities = Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable())
                 };
             }
 
@@ -72,7 +73,7 @@ namespace Api.JetNett.ServiceStackApi
 
         AdGroupResponseDTO MakeResponse(AdPageRelationship adPageRelationship)
         {
-            return new AdGroupResponseDTO { Entity = Repository.GetById(adPageRelationship.AdGroup.GetValueOrDefault(0)) };
+            return new AdGroupResponseDTO { Entities = Repository.GetByIds(adPageRelationship.AdGroup.GetValueOrDefault(0).ToEnumerable()) };
         }
 
         private AdPageRelationship GetByClientId(int clientId)

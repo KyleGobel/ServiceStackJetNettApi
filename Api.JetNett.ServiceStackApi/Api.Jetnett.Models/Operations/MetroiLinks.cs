@@ -9,7 +9,7 @@ namespace Api.JetNett.Models.Operations
     /// Used for modifying or getting a single MetroiLink
     /// </summary>
     [Api("GET all Metro iLinks or GET or DELETE a single Metro iLink by Id. Use POST to create a new Metro iLink and PUT to update it.")]
-    [Route("/metroilinks/{Id}", "GET")]
+    [Route("/metroilinks/{Ids}", "GET")]
     [Route("/metroilinks", "GET, POST, PUT, PATCH, DELETE")]
     [Route("/metroilinks/client/{ClientId}", "GET")]
     public class MetroiLinkRequestDTO : IReturn<MetroiLinksResponseDTO>, IRequestDTO<MetroiLinks>
@@ -18,7 +18,7 @@ namespace Api.JetNett.Models.Operations
         {
             Entity = new MetroiLinks();
         }
-        public int Id { get; set; }
+        public IEnumerable<int> Ids { get; set; }
         public int ClientId { get; set; }
         public MetroiLinks Entity { get; set; }
     }
@@ -35,6 +35,6 @@ namespace Api.JetNett.Models.Operations
 
         public ResponseStatus ResponseStatus { get; set; }
         public MetroiLinks Entity { get; set; }
-        public List<MetroiLinks> Entities { get; set; }
+        public IEnumerable<MetroiLinks> Entities { get; set; }
     }
 }
