@@ -6,7 +6,7 @@ using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class BadLinkService : JetNettService<BadLinkRequestDTO, BadLinkResponseDTO, BadLink>
+    public class BadLinkService : JetNettService<BadLinksDTO,  BadLink>
     {
         public BadLinkService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
         { }

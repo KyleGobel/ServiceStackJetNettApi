@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Api.JetNett.Models.Contracts;
+﻿using Api.JetNett.Models.Operations;
 
 namespace Api.JetNett.ServiceStackApi.Facts.Common
 {
@@ -8,14 +7,12 @@ namespace Api.JetNett.ServiceStackApi.Facts.Common
         public int Id { get; set; }
     }
 
-    public class TestRequestDTO : IRequestDTO<TestEntity>
+    public class TestsDTO : IGetRequestDTO
     {
-        public IEnumerable<int> Ids { get; set; }
-        public TestEntity Entity { get; set; }
-    }
-
-    public class TestResponseDTO : IResponseDTO<TestEntity>
-    {
-        public IEnumerable<TestEntity> Entities { get; set; }
+        public TestsDTO(params int[] ids)
+        {
+            this.Ids = ids;
+        }
+        public int[] Ids { get; set; }
     }
 }

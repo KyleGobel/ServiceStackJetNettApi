@@ -5,34 +5,17 @@ using ServiceStack;
 
 namespace Api.JetNett.Models.Operations
 {
-    [Api("GET all Clients or GET or DELETE a single Client by Id. Use POST to create a new Client and PUT to update it.")]
     [Route("/client/{Ids}", "GET")]
-    [Route("/client", "GET, POST, PUT, PATCH, DELETE")]
+    [Route("/client", "GET")]
     [Route("/client/{Username}/{Password}", "GET")]
-    public class ClientRequestDTO : IRequestDTO<Client> ,IReturn<Client>
+    public class ClientsDTO : IGetRequestDTO ,IReturn<List<Client>>
     {
-        public ClientRequestDTO()
+        public ClientsDTO(params int[] ids)
         {
-            Entity = new Client();
+            this.Ids = ids;
         }
-        public IEnumerable<int> Ids { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Client Entity { get; set; }
-    }
-
-    public class ClientResponseDTO : IResponseDTO<Client>, IHasResponseStatus
-    {
-        public ClientResponseDTO()
-        {
-            this.ResponseStatus = new ResponseStatus();
-            this.Entity = new Client();
-            this.Entities = new List<Client>();
-        }
-
-        public ResponseStatus ResponseStatus { get; set; }
-
-        public Client Entity { get; set; }
-        public IEnumerable<Client> Entities { get; set; }
+        public int[] Ids { get; set; }
     }
 }

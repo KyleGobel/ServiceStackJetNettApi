@@ -44,37 +44,32 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 var mockRepository = CreateTestRepository(testData);
 
                 var service = new JetNettService<
-                    TestRequestDTO, 
-                    TestResponseDTO, 
+                    TestsDTO, 
                     TestEntity>
                     (null, mockRepository.Object);
 
                 //act
-                var responseDTO = service.Get(new TestRequestDTO());
+                var response = service.Get(new TestsDTO());
 
 
                 //assert
-                Assert.NotNull(responseDTO);
-                Assert.Equal(testData, responseDTO.Entities);
+                Assert.NotNull(response);
+                Assert.Equal(testData, response);
             }
 
-
-         
-
             [Fact]
-            public void ShouldCallReposGetAllWhenRequestDTOIdsIsDefault()
+            public void ShouldCallReposGetAllWhenRequestDTOIdsIsEmpty()
             {
                 //arrange
                 var mockRepository = CreateTestRepository();
 
                 var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
+                    TestsDTO,
                     TestEntity>
                     (null, mockRepository.Object);
 
                 //act 
-                service.Get(new TestRequestDTO());
+                service.Get(new TestsDTO());
 
                 //assert
                 mockRepository.Verify(r => r.GetAll(),Times.Once);
@@ -94,8 +89,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
+                    TestsDTO,
                     TestEntity>
                     (null, mockRepository.Object, mockRc.Object);
 
@@ -118,8 +112,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
+                    TestsDTO,
                     TestEntity>
                     (null, mockRepository.Object,mockRc.Object);
 
@@ -139,8 +132,7 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(f => f.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                    TestRequestDTO,
-                    TestResponseDTO,
+                    TestsDTO,
                     TestEntity>
                     (null, mockRepository.Object,mockRc.Object);
 
@@ -165,18 +157,16 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdateRequest = Fixture.Build<TestRequestDTO>()
-                  .With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
+                var entityToUpdateRequest = Fixture.Create<TestEntity>();
 
                 //act
                 var response = (HttpResult)service.Put(entityToUpdateRequest);
 
                 //assert
-                Assert.Equal("hostapi/testEntity/" + entityToUpdateRequest.Ids.Single(), response.Headers["Location"]);
+                Assert.Equal("hostapi/testEntity/" + entityToUpdateRequest.Id, response.Headers["Location"]);
             }
 
             [Fact]
@@ -189,18 +179,16 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdateRequest = Fixture.Build<TestRequestDTO>()
-                    .With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
+                var entityToUpdate = Fixture.Create<TestEntity>();
 
                 //act
-                service.Put(entityToUpdateRequest);
+                service.Put(entityToUpdate);
 
                 //assert
-                mockRepository.Verify(i => i.Update(entityToUpdateRequest.Entity), Times.Once);
+                mockRepository.Verify(i => i.Update(entityToUpdate), Times.Once);
             }
 
             [Fact]
@@ -213,15 +201,12 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var entityToUpdateRequest =
-                    Fixture.Build<TestRequestDTO>().With(x => x.Ids, Fixture.Create<int>().ToEnumerable()).Create();
-
+                var entity = Fixture.Create<TestEntity>();
                 //act
-                var response = (HttpResult)service.Put(entityToUpdateRequest);
+                var response = (HttpResult)service.Put(entity);
 
                 //assert
                 Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);               
@@ -240,17 +225,17 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var requestContaingEntityToDelete = Fixture.Create<TestRequestDTO>();
+                var entityToDelete = Fixture.Create<TestEntity>();
 
                 //act
-                service.Delete(requestContaingEntityToDelete);
+                service.Delete(entityToDelete);
 
+                var list = entityToDelete.GetId().ToEnumerable().Select(x => (int)x);
                 //assert
-                mockRepository.Verify(i => i.Delete(requestContaingEntityToDelete.Ids), Times.Once());
+                mockRepository.Verify(i => i.Delete(list), Times.Once());
             }
 
             [Fact]
@@ -263,14 +248,13 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var requestContaingEntityToDelete = Fixture.Create<TestRequestDTO>();
+                var entityToDelete = Fixture.Create<TestEntity>();
 
                 //act
-                var response = (HttpResult)service.Delete(requestContaingEntityToDelete);
+                var response = (HttpResult)service.Delete(entityToDelete);
 
                 //assert
                 Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);    
@@ -286,17 +270,16 @@ namespace Api.JetNett.ServiceStackApi.Facts
                 mockRc.SetupGet(r => r.AbsoluteUri).Returns("hostapi/testEntity");
 
                 var service = new JetNettService<
-                TestRequestDTO,
-                TestResponseDTO,
-                TestEntity>(null, mockRepository.Object, mockRc.Object);
+                    TestsDTO,
+                    TestEntity>(null, mockRepository.Object, mockRc.Object);
 
-                var requestContaingEntityToDelete = Fixture.Create<TestRequestDTO>();
+                var entityToDelete = Fixture.Create<TestEntity>();
 
                 //act
-                var response = (HttpResult)service.Delete(requestContaingEntityToDelete);
+                var response = (HttpResult)service.Delete(entityToDelete);
 
                 //assert
-                Assert.Equal("hostapi/testEntity/" + requestContaingEntityToDelete.Ids, response.Headers["Location"]);   
+                Assert.Equal("hostapi/testEntity/" + entityToDelete.Id, response.Headers["Location"]);   
             }
         }
     }

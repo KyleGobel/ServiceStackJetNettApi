@@ -1,25 +1,27 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
 using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class ZipcodeService : JetNettService<CommunityZipcodesRequestDTO,CommunityZipcodesResponseDTO,CommunityZipcodes>
+    public class ZipcodeService : JetNettService<CommunityZipcodesDTO,CommunityZipcodes>
     {
         public ZipcodeService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
         { }
 
-        public override CommunityZipcodesResponseDTO Get(CommunityZipcodesRequestDTO request)
+        public override IEnumerable<CommunityZipcodes> Get(CommunityZipcodesDTO request)
         {
             if (request.PageId != default(int))
             {
-                return new CommunityZipcodesResponseDTO {
-                    Entity = Repository.Where(x => x.PageId == request.PageId).SingleOrDefault()
-                };
+                return Repository
+                    .Where(x => x.PageId == request.PageId)
+                    .SingleOrDefault().ToEnumerable();
             }
+
             return base.Get(request);
         }
     }

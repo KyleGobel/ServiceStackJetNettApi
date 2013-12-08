@@ -2,17 +2,14 @@
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
 using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class ClientService : JetNettService<ClientRequestDTO,ClientResponseDTO,Client>
+    public class ClientService : JetNettService<ClientsDTO,Client>
     {
         public ClientService(IDbConnectionFactory dbConnectionFactory)
             : base(dbConnectionFactory)
-        {
-        }
-
+        { }
     }
 
 }

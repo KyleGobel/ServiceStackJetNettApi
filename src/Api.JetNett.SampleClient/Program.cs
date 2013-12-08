@@ -28,8 +28,11 @@ namespace Api.JetNett.SampleClient
 
         //    var response = client.Execute<MetroiLinksResponse>(request);
 
-            var client = new JsonServiceClient("http://localhost:9037");
+            var client = new JsonServiceClient("http://dev.jetnett.com");
 
+            var dto = client.Get<List<BadLink>>(new BadLinksDTO());
+
+            Console.Write(dto.Count());
             //client.Get<MetroiLinksResponse>("/metroilinks");
 
             Console.Read();

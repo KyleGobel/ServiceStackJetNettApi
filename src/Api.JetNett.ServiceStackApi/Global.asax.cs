@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Configuration;
+using System.Web.Routing;
+using Api.JetNett.Models.Types;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -33,12 +35,22 @@ namespace Api.JetNett.ServiceStackApi
                 //container.Register<IUserAuthRepository>(userRepo);
                 container.Register<IDbConnectionFactory>(dbConnectionFactory);
 
-                //string hash;
-                //string salt;
+                Routes
+                    .Add<BadLink>("/badLink", "POST, PUT, PATCH, DELETE")
+                    .Add<Client>("/client", "POST, PUT, PATCH, DELETE")
+                    .Add<AdGroup>("/adGroup", "POST, PUT, PATCH, DELETE")
+                    .Add<Link>("/links", "POST, PUT, PATCH, DELETE")
+                    .Add<CommunityZipcodes>("/zipcode", "POST, PUT, PATCH, DELETE")
+                    .Add<Folder>("/folder", "POST, PUT, PATCH, DELETE")
+                    .Add<Page>("/page", "POST, PUT, PATCH, DELETE")
+                    .Add<MetroiLinks>("/metroilinks", "POST, PUT, PATCH, DELETE");
 
-                //new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt);
 
-                //userRepo.CreateUserAuth(new UserAuth {
+
+                //string hash; 
+                //string salt; 
+                //new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt); 
+                //userRepo.CreateUserAuth(new UserAuth { 
                 //    Id = 1,
                 //    DisplayName = "Api User",
                 //    Email = "jetnettone@gmail.com",

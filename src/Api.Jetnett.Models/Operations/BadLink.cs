@@ -1,22 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using Api.JetNett.Models.Contracts;
 using Api.JetNett.Models.Types;
 using ServiceStack;
 
 namespace Api.JetNett.Models.Operations
 {
-
-    [Api("Standard BadLinks Entity Service.")]
-    [Route("/badlink/{Ids}", "GET")]
-    [Route("/badlink", "GET, POST, PUT, PATCH, DELETE")]
-    public class BadLinkRequestDTO : IRequestDTO<BadLink>, IReturn<BadLinkResponseDTO>
+    public interface IGetRequestDTO
     {
-        public IEnumerable<int> Ids { get; set; }
-        public BadLink Entity { get; set; }
+        int[] Ids { get; set; }
     }
 
-    public class BadLinkResponseDTO : IResponseDTO<BadLink>
+
+    [Route("/badlink/{Ids}")]
+    [Route("/badlink")]
+    public class BadLinksDTO : IGetRequestDTO, IReturn<IEnumerable<BadLink>>
     {
-        public IEnumerable<BadLink> Entities { get; set; }
+        public int[] Ids { get; set; }
+
+        public BadLinksDTO(params int[] ids)
+        {
+            this.Ids = ids;
+        }
     }
 }

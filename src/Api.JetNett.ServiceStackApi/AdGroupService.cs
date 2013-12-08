@@ -1,14 +1,14 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
 using ServiceStack.Data;
-using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public sealed class AdGroupService : JetNettService<AdGroupRequestDTO,AdGroupResponseDTO,AdGroup>
+    public sealed class AdGroupService : JetNettService<AdGroupsDTO,AdGroup>
     {
         OrmLiteRepository<AdPageRelationship> RelationshipRepository { get; set; }
         public AdGroupService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
@@ -16,7 +16,7 @@ namespace Api.JetNett.ServiceStackApi
             RelationshipRepository = new OrmLiteRepository<AdPageRelationship>(Db);
         }
 
-        public override AdGroupResponseDTO Get(AdGroupRequestDTO request)
+        public override IEnumerable<AdGroup> Get(AdGroupsDTO request)
         {
             if (request.ClientId != default(int) && request.PageId != default(int))
             {
@@ -41,19 +41,14 @@ namespace Api.JetNett.ServiceStackApi
                     return MakeResponse(entry);
 
                 //nothing found
-                return new AdGroupResponseDTO();
+                return null;
             }
 
             if (request.PageId != default(int))
             {
                 var relationshipEntry = RelationshipRepository.Where(i => i.PageId == request.PageId).FirstOrDefault();
 
-                if (relationshipEntry == null)
-                    return new AdGroupResponseDTO();
-
-                return new AdGroupResponseDTO {
-                        Entities = Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable())
-                };
+                return relationshipEntry == null ? null : Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable());
             }
 
             if (request.ClientId != default(int))
@@ -61,19 +56,17 @@ namespace Api.JetNett.ServiceStackApi
                 var relationshipEntry = RelationshipRepository.Where(i => i.ClientId == request.ClientId).FirstOrDefault();
 
                 if (relationshipEntry == null)
-                    return new AdGroupResponseDTO();
+                    return null;
 
-                return new AdGroupResponseDTO {
-                        Entities = Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable())
-                };
+                return Repository.GetByIds(relationshipEntry.AdGroup.GetValueOrDefault().ToEnumerable());
             }
 
             return base.Get(request);
         }
 
-        AdGroupResponseDTO MakeResponse(AdPageRelationship adPageRelationship)
+        IEnumerable<AdGroup> MakeResponse(AdPageRelationship adPageRelationship)
         {
-            return new AdGroupResponseDTO { Entities = Repository.GetByIds(adPageRelationship.AdGroup.GetValueOrDefault(0).ToEnumerable()) };
+            return Repository.GetByIds(adPageRelationship.AdGroup.GetValueOrDefault(0).ToEnumerable());
         }
 
         private AdPageRelationship GetByClientId(int clientId)
