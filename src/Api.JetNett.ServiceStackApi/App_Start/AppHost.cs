@@ -5,6 +5,8 @@ using System.EnterpriseServices.Internal;
 using Api.JetNett.Models.Types;
 using Funq;
 using ServiceStack;
+using ServiceStack.Auth;
+using ServiceStack.Caching;
 using ServiceStack.Configuration;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -17,11 +19,33 @@ namespace Api.JetNett.ServiceStackApi.App_Start
         {
             var dbConnectionFactory = new OrmLiteConnectionFactory(connectionString, SqlServerDialect.Provider);
             container.Register<IDbConnectionFactory>(dbConnectionFactory);
+            container.Register<ICacheClient>(new MemoryCacheClient());
+
+            //user auth testing
+            var userRepo = new InMemoryAuthRepository();
+
+            string hash;
+            string salt;
+            new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt);
+            userRepo.CreateUserAuth(new UserAuth
+            {
+                Id = 1,
+                DisplayName = "Api User",
+                Email = "jetnettone@gmail.com",
+                UserName = "ApiUser",
+                FirstName = "Api",
+                LastName = "User",
+                PasswordHash = hash,
+                Salt = salt
+            }, "ssapi");
+
+            container.Register<IUserAuthRepository>(userRepo);
         }
 
         public static IEnumerable<IPlugin> GetPlugins()
         {
             yield return new CorsFeature();
+            yield return new AuthFeature(() => new AuthUserSession(), new IAuthProvider[] { new BasicAuthProvider() });
         }
     }
     public class WebAppHost : AppHostHttpListenerBase
@@ -40,16 +64,6 @@ namespace Api.JetNett.ServiceStackApi.App_Start
 
             this.Plugins.AddRange(AppHostCommon.GetPlugins());
 
-            //Plugins.Add(new AuthFeature(() => new AuthUserSession(),
-            //    new IAuthProvider[] {
-            //        new BasicAuthProvider()
-            //    }));
-
-            //container.Register<ICacheClient>(new MemoryCacheClient());
-
-            //var userRepo = new InMemoryAuthRepository();
-            //container.Register<IUserAuthRepository>(userRepo);
-
             Routes
                 .Add<BadLink>("/badLink", "POST, PUT, PATCH, DELETE")
                 .Add<Client>("/client", "POST, PUT, PATCH, DELETE")
@@ -59,20 +73,6 @@ namespace Api.JetNett.ServiceStackApi.App_Start
                 .Add<Folder>("/folder", "POST, PUT, PATCH, DELETE")
                 .Add<Page>("/page", "POST, PUT, PATCH, DELETE")
                 .Add<MetroiLinks>("/metroilinks", "POST, PUT, PATCH, DELETE");
-
-            //string hash; 
-            //string salt; 
-            //new SaltedHash().GetHashAndSaltString("ssapi", out hash, out salt); 
-            //userRepo.CreateUserAuth(new UserAuth { 
-            //    Id = 1,
-            //    DisplayName = "Api User",
-            //    Email = "jetnettone@gmail.com",
-            //    UserName = "ApiUser",
-            //    FirstName = "Api",
-            //    LastName = "User",
-            //    PasswordHash = hash,
-            //    Salt = salt
-            //}, "ssapi");
         }
     }
 
