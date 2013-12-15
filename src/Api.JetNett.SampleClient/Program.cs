@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
-using ServiceStack.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using ServiceStack.Text;
-using ServiceStack.Common;
-
+using JetNettApiReactive;
 using ServiceStack;
 namespace Api.JetNett.SampleClient
 {
@@ -30,13 +21,28 @@ namespace Api.JetNett.SampleClient
 
             var client = new JsonServiceClient("http://dev.jetnett.com");
 
-            var dto = client.Get<List<BadLink>>(new BadLinksDTO());
+            var repo = new PagesRepository(client);
 
-            Console.Write(dto.Count());
-            //client.Get<MetroiLinksResponse>("/metroilinks");
+            var obs = repo.GetById(8);
+
+
+            obs.Subscribe(x =>
+            {
+                Console.WriteLine(x.Title);
+            });
+
+            obs.Wait();
+            
 
             Console.Read();
-
         }
+
+        //Session ID, Journal ID, Task Id
+        //----null--, ---7------,  6
+        //NoteType
+        // 5 = session, 2 = Journal, 3 = Task
+        //
+        //PK ID
+        // WHERE Notes.Type == Session && Notes.ParentTypeId = 5
     }
 }

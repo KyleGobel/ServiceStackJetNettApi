@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Api.JetNett.Models.Types;
 
 namespace Api.JetNett.Models.Contracts
 {

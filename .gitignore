@@ -213,6 +213,7 @@ pip-log.txt
 
 #webconfig
 *web.config
+*app.config
 
 #Translations
 *.mo

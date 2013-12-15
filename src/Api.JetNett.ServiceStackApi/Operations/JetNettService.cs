@@ -19,8 +19,8 @@ namespace Api.JetNett.ServiceStackApi.Operations
         where TGetRequest : IGetRequestDTO
         where TModel : class, new()
     {
-        protected OrmLiteRepository<TModel> Repository { get; set; } 
-        public JetNettService(IDbConnectionFactory dbConnectionFactory, OrmLiteRepository<TModel> repository = null, IRequest requestContext = null) 
+        protected IRepository<TModel> Repository { get; set; } 
+        public JetNettService(IDbConnectionFactory dbConnectionFactory, IRepository<TModel> repository = null, IRequest requestContext = null) 
         {
             //These are injectable for testin
             if (requestContext != null)

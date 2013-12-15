@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.JetNett.ServiceStackApi", "Api.JetNett.ServiceStackApi\Api.JetNett.ServiceStackApi.csproj", "{73ADE25B-A508-4776-8641-AAD879D27E49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Jetnett.Models", "Api.Jetnett.Models\Api.Jetnett.Models.csproj", "{0339A382-4CB5-401A-B86A-B86A8EC524CE}"
@@ -8,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.JetNett.SampleClient", "Api.JetNett.SampleClient\Api.JetNett.SampleClient.csproj", "{5431174F-6D2C-4BCA-944F-71A5A7B5D9FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.JetNett.ServiceStackApi.Facts", "Api.JetNett.ServiceStackApi.Facts\Api.JetNett.ServiceStackApi.Facts.csproj", "{76D2CEFA-6E20-4092-AF94-E9AE743CF66D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetNettApiReactive", "JetNettApiReactive\JetNettApiReactive.csproj", "{339BB763-73CF-43BB-BFE1-D863216028D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,10 @@ Global
 		{76D2CEFA-6E20-4092-AF94-E9AE743CF66D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76D2CEFA-6E20-4092-AF94-E9AE743CF66D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76D2CEFA-6E20-4092-AF94-E9AE743CF66D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339BB763-73CF-43BB-BFE1-D863216028D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339BB763-73CF-43BB-BFE1-D863216028D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339BB763-73CF-43BB-BFE1-D863216028D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339BB763-73CF-43BB-BFE1-D863216028D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

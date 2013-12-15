@@ -1,12 +1,13 @@
 using System;
-using System.Collections.Generic;
+using ServiceStack.DataAnnotations;
 
-namespace Api.JetNett.Models.Models
+namespace Api.JetNett.Models.Types
 {
-    public partial class agentPrice
+    [Alias("AgentPrices")]
+    public class AgentPrice
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<decimal> Price { get; set; }
+        public decimal? Price { get; set; }
     }
 }

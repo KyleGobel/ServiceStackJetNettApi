@@ -7,8 +7,8 @@ namespace Api.JetNett.ServiceStackApi
 {
     public class ClientService : JetNettService<ClientsDTO,Client>
     {
-        public ClientService(IDbConnectionFactory dbConnectionFactory)
-            : base(dbConnectionFactory)
+        public ClientService(IDbConnectionFactory dbConnectionFactory, IRepository<Client> clientRepository = null)
+            : base(dbConnectionFactory, clientRepository)
         { }
     }
 

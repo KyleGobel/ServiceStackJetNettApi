@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq.Expressions;
+using Api.JetNett.Models.Types;
 using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
@@ -22,11 +23,12 @@ namespace Api.JetNett.ServiceStackApi
         public virtual IEnumerable<T> GetByIds(IEnumerable<int> ids)
         {
             return Db.SelectByIds<T>(ids);
+            
         }
 
         public virtual IEnumerable<T> Where(Expression<Func<T, bool>> whereExpression)
         {
-            return Db.Where<T>(whereExpression);
+            return Db.Select<T>(whereExpression);
         }
 
         public virtual long Insert(T entity)

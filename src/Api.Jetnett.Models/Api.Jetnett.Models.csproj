@@ -71,7 +71,7 @@
     <Compile Include="Operations\Folder.cs" />
     <Compile Include="Operations\Link.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
-    <Compile Include="Operations\Pages.cs" />
+    <Compile Include="Operations\PageOperations.cs" />
     <Compile Include="Types\Active_Jobs.cs" />
     <Compile Include="Types\Ad.cs" />
     <Compile Include="Types\AdGroup.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="Types\AdPageRelationship.cs" />
     <Compile Include="Types\Ad_Tracker.cs" />
     <Compile Include="Types\Ad_View_Tracker.cs" />
-    <Compile Include="Types\agentPrice.cs" />
+    <Compile Include="Types\AgentPrice.cs" />
     <Compile Include="Types\Available_Properties_Page.cs" />
     <Compile Include="Types\Bad_Links.cs" />
     <Compile Include="Types\Builder_Checklist.cs" />

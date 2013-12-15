@@ -1,38 +1,69 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
-using Api.JetNett.ServiceStackApi.Operations;
+using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class PagesService : JetNettService<PagesDTO,Page>
-    { 
-        public PagesService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
-        { }
 
-        public override IEnumerable<Page> Get(PagesDTO request)
+    public class PagesService : Service
+    {
+        protected OrmLiteRepository<Page> Repository { get; set; }
+
+        public PagesService(IDbConnectionFactory dbConnectionFactory)
         {
-            if (request.FolderId != default(int))
+            Repository = new OrmLiteRepository<Page>(dbConnectionFactory.Open());
+        }
+
+        public Page Get(PageRequest request)
+        {
+            return Repository.GetByIds(request.Id.ToEnumerable()).SingleOrDefault();
+        }
+
+        public List<Page> Get(ListPagesRequest request)
+        {
+            if (request.Ids != default(int[]))
+                return Repository.GetByIds(request.Ids).ToList();
+            if (request.FolderId != default(int?))
+                return Repository.Where(x => x.FolderId == request.FolderId).ToList();
+
+            return Repository.GetAll().ToList();
+        }
+
+        public int Post(Page page)
+        {
+            return Convert.ToInt32(Repository.Insert(page));
+        }
+    }
+
+    public class PagePathInfoService : Service
+    {
+        protected OrmLiteRepository<Page> Repository { get; set; }
+        public PagePathInfoService(IDbConnectionFactory dbConnectionFactory)
+        {
+            Repository = new OrmLiteRepository<Page>(dbConnectionFactory.Open());
+        }
+
+        public List<Page> Get(PagesWithPathsAsTitles request)
+        {
+            var pages = Repository.GetByIds(request.Ids);
+
+            if (pages == null)
+                return null;
+
+            var newPages = pages.ToList().Select(x =>
             {
-                return Repository.Where(x => x.FolderId == request.FolderId);
-            }
-            if (request.PathPageId != default(int))
-            {
-                var page = Repository.GetByIds(request.PathPageId.ToEnumerable()).SingleOrDefault();
+                var folderPath = GetFolderPath(x.FolderId);
+                x.Title = folderPath + x.Title;
+                return x;
+            });
 
-                if (page == null)
-                    return null;
-
-                var folderPath = GetFolderPath(page.FolderId);
-
-                page.Title = folderPath + page.Title;
-                return page.ToEnumerable();
-            }
-            return base.Get(request);
+            return newPages.ToList();
         }
 
         private string GetFolderPath(int? folderId, string path = "")
@@ -40,10 +71,10 @@ namespace Api.JetNett.ServiceStackApi
             if (folderId == null || folderId == 0)
                 return path;
 
-            var folder = Db.SingleWhere<Folder>("FolderID", folderId);
+            var folder = Db.SingleWhere<Folder>("ID", folderId);
             if (folder != null)
             {
-                path = path.Insert(0, folder.Name + ">");
+                path = path.Insert(0, folder.Name + " > ");
                 return GetFolderPath(folder.ParentFolderId, path);
             }
             return "";
