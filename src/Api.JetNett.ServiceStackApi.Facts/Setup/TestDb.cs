@@ -13,6 +13,8 @@ namespace Api.JetNett.ServiceStackApi.Facts.Setup
     {
         protected SelfAppHost AppHost { get; private set; }
         public IDbConnectionFactory ConnectionFactory { get; private set; }
+        public List<Folder> SeedFolders { get; private set; }
+        public List<Page> SeedPages { get; private set; }
         public TestDb()
         {
             OrmLiteConfig.DialectProvider = SqlServerOrmLiteDialectProvider.Instance;
@@ -35,9 +37,6 @@ namespace Api.JetNett.ServiceStackApi.Facts.Setup
                 Seed(db);
             }
         }
-    
-        public List<Folder> SeedFolders { get; private set; } 
-        public List<Page> SeedPages { get; private set; }
         private void Seed(IDbConnection db)
         {
             SeedFolders = new List<Folder>

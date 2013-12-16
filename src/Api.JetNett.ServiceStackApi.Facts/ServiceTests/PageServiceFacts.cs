@@ -91,7 +91,7 @@ namespace Api.JetNett.ServiceStackApi.Facts.ServiceTests
             {
                 var pageToInsert = new Page {FolderId = 1, Title = "Test Page To Insert"};
 
-                InsertedPageId = PagesService.Post(pageToInsert);
+                InsertedPageId = PagesService.Post(new InsertPageRequest(pageToInsert));
                 pageToInsert.Id = InsertedPageId;
 
                 Assert.NotEqual(InsertedPageId, 0);

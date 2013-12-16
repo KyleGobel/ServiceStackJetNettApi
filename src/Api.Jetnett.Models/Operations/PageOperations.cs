@@ -4,9 +4,9 @@ using ServiceStack;
 
 namespace Api.JetNett.Models.Operations
 {
-    [Route("/pages")]
-    [Route("/folders/{FolderId}/pages")]
-    [Route("/pages/{Ids}")]
+    [Route("/pages", "GET")]
+    [Route("/folders/{FolderId}/pages", "GET")]
+    [Route("/pages/{Ids}", "GET")]
     public class ListPagesRequest : IReturn<List<Page>>
     {
         public int[] Ids { get; set; }
@@ -21,6 +21,18 @@ namespace Api.JetNett.Models.Operations
         public PageRequest(int id)
         {
             this.Id = id;
+        }
+    }
+
+    [Route("/pages/", "POST")]
+    [Authenticate(ApplyTo.Post)]
+    public class InsertPageRequest : IReturn<int>
+    {
+        public Page PageToInsert { get; set; }
+
+        public InsertPageRequest(Page pageToInsert)
+        {
+            this.PageToInsert = pageToInsert;
         }
     }
    

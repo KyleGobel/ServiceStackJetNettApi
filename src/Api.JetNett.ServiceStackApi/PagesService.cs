@@ -35,9 +35,9 @@ namespace Api.JetNett.ServiceStackApi
             return Repository.GetAll().ToList();
         }
 
-        public int Post(Page page)
+        public int Post(InsertPageRequest request)
         {
-            return Convert.ToInt32(Repository.Insert(page));
+            return Convert.ToInt32(Repository.Insert(request.PageToInsert));
         }
     }
 
