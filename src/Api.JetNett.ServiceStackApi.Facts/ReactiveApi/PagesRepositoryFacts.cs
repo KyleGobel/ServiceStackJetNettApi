@@ -76,6 +76,19 @@ namespace Api.JetNett.ServiceStackApi.Facts.ReactiveApi
 
             Assert.True(result > 0);
             Assert.Equal(pageToAdd, await ReactiveRepo.GetById(result));
+
+            ReactiveRepo.Delete(pageToAdd.Id);
+        }
+
+        [Fact]
+        [Trait("ReactiveRepo", "PagesRepository")]
+        public async void DeletePage_ShouldDeleteAPage()
+        {
+            var pageId = TestDatabase.SeedPages[0].Id;
+            ReactiveRepo.Delete(pageId);
+
+            var deletedPage = await ReactiveRepo.GetById(pageId);
+            Assert.Null(deletedPage);
         }
 
         [Fact]

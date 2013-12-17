@@ -35,6 +35,17 @@ namespace Api.JetNett.ServiceStackApi
             return Repository.GetAll().ToList();
         }
 
+        public void Put(UpdatePageRequest request)
+        {
+            request.Entity.Id = request.Id;
+            Repository.Update(request.Entity);
+        }
+
+        public void Delete(DeletePageRequest request)
+        {
+            Repository.Delete(request.Id.ToEnumerable());
+        }
+
         public int Post(InsertPageRequest request)
         {
             return Convert.ToInt32(Repository.Insert(request.PageToInsert));

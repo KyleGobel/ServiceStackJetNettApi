@@ -35,6 +35,38 @@ namespace Api.JetNett.Models.Operations
             this.PageToInsert = pageToInsert;
         }
     }
+
+    [Route("/pages/", "DELETE")]
+    [Authenticate(ApplyTo.Delete)]
+    public class DeletePageRequest : IReturnVoid
+    {
+        public int Id { get; set; }
+
+        public DeletePageRequest(int id)
+        {
+            this.Id = id;
+        }
+
+        public DeletePageRequest()
+        { }
+    }
+
+    [Route("/pages/", "PUT")]
+    [Authenticate(ApplyTo.Put)]
+    public class UpdatePageRequest : IReturnVoid
+    {
+        public int Id { get; set; }
+        public Page Entity { get; set; }
+        public UpdatePageRequest(int id, Page entity)
+        {
+            this.Id = id;
+            this.Entity = entity;
+        }
+
+        public UpdatePageRequest()
+        { }
+    }
+
    
 
     [Route("/pages/paths/{Ids}", "GET")]

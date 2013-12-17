@@ -41,6 +41,15 @@ namespace JetNettApiReactive
             return JsonClient.GetAsync(new PagesWithPathsAsTitles(pageIds)).ToObservable().Timeout(Timeout);
         }
 
+        public void Delete(int id)
+        {
+            JsonClient.Delete(new DeletePageRequest(id));
+        }
+
+        public void Update(int id, Page page)
+        {
+            JsonClient.Put(new UpdatePageRequest(id, page));
+        }
         public IObservable<Page> GetById(int id)
         {
             return JsonClient.GetAsync(new PageRequest(id)).ToObservable().Timeout(Timeout);
