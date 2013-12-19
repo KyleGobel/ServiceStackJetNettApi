@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Security.Cryptography.X509Certificates;
 using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
@@ -10,45 +12,44 @@ using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
+ 
 
-    public class PagesService : Service
+    public class PagesService : BasicOpsService<Page>
     {
-        protected OrmLiteRepository<Page> Repository { get; set; }
+        public PagesService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
+        { }
 
-        public PagesService(IDbConnectionFactory dbConnectionFactory)
+        public Page Get(GetPageRequest request)
         {
-            Repository = new OrmLiteRepository<Page>(dbConnectionFactory.Open());
-        }
-
-        public Page Get(PageRequest request)
-        {
-            return Repository.GetByIds(request.Id.ToEnumerable()).SingleOrDefault();
+            return base.Get(request);
         }
 
         public List<Page> Get(ListPagesRequest request)
         {
-            if (request.Ids != default(int[]))
-                return Repository.GetByIds(request.Ids).ToList();
+            if (request == null)
+            {
+                return base.Get(request);
+            }
+
             if (request.FolderId != default(int?))
                 return Repository.Where(x => x.FolderId == request.FolderId).ToList();
 
-            return Repository.GetAll().ToList();
+            return base.Get(request);
         }
 
         public void Put(UpdatePageRequest request)
         {
-            request.Entity.Id = request.Id;
-            Repository.Update(request.Entity);
+            base.Put(request);
         }
 
         public void Delete(DeletePageRequest request)
         {
-            Repository.Delete(request.Id.ToEnumerable());
+            base.Delete(request); 
         }
 
-        public int Post(InsertPageRequest request)
+        public long Post(InsertPageRequest request)
         {
-            return Convert.ToInt32(Repository.Insert(request.PageToInsert));
+            return base.Post(request);
         }
     }
 

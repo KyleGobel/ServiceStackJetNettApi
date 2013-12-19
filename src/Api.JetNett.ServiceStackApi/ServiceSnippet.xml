@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Basic Service</Title>
+      <Author>Kyle Gobel</Author>
+      <Description>Insert a Basic Service Stack Service</Description>
+    </Header>
+    <Snippet>
+      <Code Language="csharp">
+        <![CDATA[
+        public class $type$Service : Service
+        {
+          protected OrmLiteRepository<$type$> Repository {get; set;}
+          
+          public $typeService(IDbConnectionFactory dbConnectionFactory)
+          {
+            Repository = new OrmLiterepository<$type$>(dbConnectionFactory);
+          }
+          
+          public $type$ Get($getSingleRequest$ request)
+          {
+            return Repository.GetById(request.Id);
+          }
+          
+          public List<$type$> Get($getMultipleRequest$ request)
+          {
+            return Repository.GetAll().ToList();
+          }
+          
+          public void Put($putRequest$ request)
+          {
+            Repository.Update(request.Entity);
+          }
+          
+          public void Delete($deleteRequest$ request)
+          {
+            Repository.Delete(request.Id);
+          }
+          
+          public int Post($postRequest$ request)
+          {
+            return Repository.Insert(request.Entity);
+          }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

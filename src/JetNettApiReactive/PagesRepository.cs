@@ -52,7 +52,7 @@ namespace JetNettApiReactive
         }
         public IObservable<Page> GetById(int id)
         {
-            return JsonClient.GetAsync(new PageRequest(id)).ToObservable().Timeout(Timeout);
+            return JsonClient.GetAsync(new GetPageRequest(id)).ToObservable().Timeout(Timeout);
         }
 
         public IObservable<List<Page>> GetByIds(params int[] ids)

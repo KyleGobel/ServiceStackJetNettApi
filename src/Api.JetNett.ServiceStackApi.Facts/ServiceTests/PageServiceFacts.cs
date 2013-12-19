@@ -74,7 +74,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
             public void ReturnsAPage()
             {
                 var pageToQuery = TestDatabase.SeedPages[0];
-                var result = PagesService.Get(new PageRequest(pageToQuery.Id));
+                var result = PagesService.Get(new GetPageRequest(pageToQuery.Id));
 
                 Assert.Equal(pageToQuery, result);
             }
@@ -95,7 +95,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
 
             PagesService.Put(new UpdatePageRequest(page.Id, page));
 
-            Assert.Equal(pageTitle, PagesService.Get(new PageRequest(page.Id)).Title);
+            Assert.Equal(pageTitle, PagesService.Get(new GetPageRequest(page.Id)).Title);
         }
     }
 
@@ -106,11 +106,11 @@ public class PageServiceFacts : IUseFixture<TestDb>
         [Trait("Verb", "DELETE")]
         public void DeletesAPage()
         {
-            int id = PagesService.Post(new InsertPageRequest(new Page {Title = " new page", FolderId = TestDatabase.SeedFolders[0].Id}));
+            var id = (int)PagesService.Post(new InsertPageRequest(new Page {Title = " new page", FolderId = TestDatabase.SeedFolders[0].Id}));
 
             PagesService.Delete(new DeletePageRequest(id));
 
-            Assert.Null(PagesService.Get(new PageRequest(id)));
+            Assert.Null(PagesService.Get(new GetPageRequest(id)));
         }
     }
     public class ThePostVerb : PageServiceFacts, IDisposable
@@ -123,12 +123,12 @@ public class PageServiceFacts : IUseFixture<TestDb>
         {
             var pageToInsert = new Page {FolderId = 1, Title = "Test Page To Insert"};
 
-            InsertedPageId = PagesService.Post(new InsertPageRequest(pageToInsert));
+            InsertedPageId = (int)PagesService.Post(new InsertPageRequest(pageToInsert));
             pageToInsert.Id = InsertedPageId;
 
             Assert.NotEqual(InsertedPageId, 0);
 
-            Assert.Equal(pageToInsert, PagesService.Get(new PageRequest(InsertedPageId)));
+            Assert.Equal(pageToInsert, PagesService.Get(new GetPageRequest(InsertedPageId)));
         }
 
         public void Dispose()

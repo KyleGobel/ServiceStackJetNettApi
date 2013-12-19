@@ -11,5 +11,12 @@ namespace Api.JetNett.Models.Types
 
         [Alias("Parent_Folder_ID")]
         public int? ParentFolderId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var folder = obj as Folder;
+
+            return folder != null && this.Id.Equals(folder.Id);
+        }
     }
 }

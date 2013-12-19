@@ -26,6 +26,10 @@ namespace Api.JetNett.ServiceStackApi
             
         }
 
+        public virtual T GetById(int id)
+        {
+            return Db.SingleById<T>(id);
+        }
         public virtual IEnumerable<T> Where(Expression<Func<T, bool>> whereExpression)
         {
             return Db.Select<T>(whereExpression);
@@ -33,7 +37,7 @@ namespace Api.JetNett.ServiceStackApi
 
         public virtual long Insert(T entity)
         {
-            return Db.Insert(entity);
+            return Db.Insert(entity, selectIdentity: true);
         }
 
         public virtual void Update(T entity)

@@ -68,8 +68,9 @@
     <Compile Include="Operations\BadLink.cs" />
     <Compile Include="Operations\Clients.cs" />
     <Compile Include="Operations\CommunityZipcodes.cs" />
-    <Compile Include="Operations\Folder.cs" />
-    <Compile Include="Operations\Link.cs" />
+    <Compile Include="Operations\FolderOperations.cs" />
+    <Compile Include="Operations\IHaveInterfaces.cs" />
+    <Compile Include="Operations\LinkOperations.cs" />
     <Compile Include="Operations\MetroiLinks.cs" />
     <Compile Include="Operations\PageOperations.cs" />
     <Compile Include="Types\Active_Jobs.cs" />

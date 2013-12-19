@@ -7,18 +7,18 @@ namespace Api.JetNett.Models.Operations
     [Route("/pages", "GET")]
     [Route("/folders/{FolderId}/pages", "GET")]
     [Route("/pages/{Ids}", "GET")]
-    public class ListPagesRequest : IReturn<List<Page>>
+    public class ListPagesRequest : IHaveManyIds, IReturn<List<Page>>
     {
         public int[] Ids { get; set; }
         public int? FolderId { get; set; }
     }
 
     [Route("/pages/{Id}", "GET")]
-    public class PageRequest : IReturn<Page>
+    public class GetPageRequest : IHaveId, IReturn<Page>
     {
         public int Id { get; set; }
 
-        public PageRequest(int id)
+        public GetPageRequest(int id)
         {
             this.Id = id;
         }
@@ -26,19 +26,19 @@ namespace Api.JetNett.Models.Operations
 
     [Route("/pages/", "POST")]
     [Authenticate(ApplyTo.Post)]
-    public class InsertPageRequest : IReturn<int>
+    public class InsertPageRequest : IHaveEntity<Page>, IReturn<int>
     {
-        public Page PageToInsert { get; set; }
+        public Page Entity { get; set; }
 
-        public InsertPageRequest(Page pageToInsert)
+        public InsertPageRequest(Page entity)
         {
-            this.PageToInsert = pageToInsert;
+            this.Entity = entity;
         }
     }
 
     [Route("/pages/", "DELETE")]
     [Authenticate(ApplyTo.Delete)]
-    public class DeletePageRequest : IReturnVoid
+    public class DeletePageRequest : IHaveId
     {
         public int Id { get; set; }
 
@@ -51,9 +51,9 @@ namespace Api.JetNett.Models.Operations
         { }
     }
 
-    [Route("/pages/", "PUT")]
+    [Route("/pages/{Id}", "PUT")]
     [Authenticate(ApplyTo.Put)]
-    public class UpdatePageRequest : IReturnVoid
+    public class UpdatePageRequest : IHaveEntity<Page>, IHaveId
     {
         public int Id { get; set; }
         public Page Entity { get; set; }

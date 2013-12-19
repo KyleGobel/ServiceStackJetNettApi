@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.App_Start;
 using ServiceStack.Data;
+using ServiceStack.Logging;
 using ServiceStack.OrmLite;
 using ServiceStack.OrmLite.SqlServer;
 
@@ -29,10 +32,14 @@ namespace Api.JetNett.ServiceStackApi.Facts.Setup
 
         private void SetupTestDb()
         {
+            LogManager.LogFactory = new DebugLogFactory();
+
             using (var db = ConnectionFactory.OpenDbConnection())
             {
-                db.DropAndCreateTable<Folder>(); 
-                db.DropAndCreateTable<Page>();
+                db.DropTable<Page>();
+                db.DropTable<Folder>();
+                db.CreateTable<Folder>(); 
+                db.CreateTable<Page>();
 
                 Seed(db);
             }
