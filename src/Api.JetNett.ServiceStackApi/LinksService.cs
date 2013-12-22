@@ -10,11 +10,11 @@ using ServiceStack.OrmLite;
 namespace Api.JetNett.ServiceStackApi
 {
     
-    public class LinkService : Service
+    public class LinksService : Service
     {
         protected OrmLiteRepository<Link> Repository { get; set; }
 
-        public LinkService(IDbConnectionFactory dbConnectionFactory)
+        public LinksService(IDbConnectionFactory dbConnectionFactory)
         {
             Repository = new OrmLiteRepository<Link>(dbConnectionFactory.Open());
         }

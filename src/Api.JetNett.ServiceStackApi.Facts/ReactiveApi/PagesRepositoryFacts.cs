@@ -6,8 +6,7 @@ using ServiceStack;
 using Xunit;
 using System.Reactive.Linq;
 
-namespace Api.JetNett.ServiceStackApi.Facts.ReactiveApi
-{
+
     //mostly integration tests, requires Testconfig.DevHostBaseUrl server up and running
     public class PagesRepositoryFacts : IUseFixture<TestDb>
     {
@@ -103,4 +102,3 @@ namespace Api.JetNett.ServiceStackApi.Facts.ReactiveApi
         }
 
     }
-}

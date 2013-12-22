@@ -10,17 +10,17 @@ using ServiceStack.Support;
 using Xunit;
 
 
-    public class FolderServiceFacts : IUseFixture<TestDb>
+    public class FolderServiceFacts 
     {
-        protected TestDb TestDatabase { get; set; }
+        protected Db Database { get; set; }
         protected FolderService FolderService { get; set; }
 
-        public virtual void SetFixture(TestDb data)
+        public FolderServiceFacts()
         {
-            TestDatabase = data;
-            FolderService = new FolderService(TestDatabase.ConnectionFactory);
+            Database = new Db();
+            Database.SetupDatabase();
+            FolderService = new FolderService(Database.ConnectionFactory);
         }
-
         public class TheGetMethod 
         {
             public class ListFoldersRequestOverload : FolderServiceFacts
@@ -31,7 +31,7 @@ using Xunit;
                 public void ReturnsAllFolders_WhenCalledWithEmptyListRequest()
                 {
                     var results = FolderService.Get(new ListFoldersRequest());
-                    Assert.Equal(TestDatabase.SeedFolders, results);
+                    Assert.Equal(Database.SeedFolders, results);
                 }
 
                 [Fact]
@@ -39,7 +39,7 @@ using Xunit;
                 [Trait("ServiceTest", "Folder")]
                 public void ReturnsFolders_WhenCalledWithListOfIds()
                 {
-                    var folder = TestDatabase.SeedFolders[0];
+                    var folder = Database.SeedFolders[0];
                     var results = FolderService.Get(new ListFoldersRequest() {Ids = folder.Id.ToEnumerable().ToArray()});
 
                     Assert.Equal(1, results.Count);
@@ -51,10 +51,10 @@ using Xunit;
                 [Trait("ServiceTest", "Folder")]
                 public void ReturnsListOfChildFolders_WhenCalledWithParentFolderId()
                 {
-                    var folder = TestDatabase.SeedFolders[0];
+                    var folder = Database.SeedFolders[0];
                     var results = FolderService.Get(new ListFoldersRequest() {ParentId = folder.Id});
 
-                    Assert.Equal(results, TestDatabase.SeedFolders.Where(x => x.ParentFolderId == folder.Id));
+                    Assert.Equal(results, Database.SeedFolders.Where(x => x.ParentFolderId == folder.Id));
                 }
             }
 
@@ -65,9 +65,9 @@ using Xunit;
                 [Trait("ServiceTest", "Folder")]
                 public void ReturnsFolderWithIdGivenToRequest()
                 {
-                    var result = FolderService.Get(new GetFolderRequest(TestDatabase.SeedFolders[0].Id));
+                    var result = FolderService.Get(new GetFolderRequest(Database.SeedFolders[0].Id));
 
-                    Assert.Equal(TestDatabase.SeedFolders[0], result);
+                    Assert.Equal(Database.SeedFolders[0], result);
                 }
             }
         }
@@ -80,7 +80,7 @@ using Xunit;
             public void UpdatesAFolder()
             {
                 const string newName = "An updated name";
-                var folder = TestDatabase.SeedFolders[0];
+                var folder = Database.SeedFolders[0];
                 FolderService.Put(new UpdateFolderRequest(new Folder() { Id = folder.Id, Name=newName}));
 
 
@@ -96,7 +96,7 @@ using Xunit;
             [Trait("ServiceTest", "Folder")]
             public void InsertsAFolder()
             {
-                var newFolder = new Folder {Name = "A new Folder", ParentFolderId = TestDatabase.SeedFolders[1].Id};
+                var newFolder = new Folder {Name = "A new Folder", ParentFolderId = Database.SeedFolders[1].Id};
 
                 InsertedId = (int)FolderService.Post(new InsertFolderRequest(newFolder));
 
@@ -107,7 +107,7 @@ using Xunit;
 
                 Assert.Equal(InsertedId, folder.Id);
                 Assert.Equal("A new Folder", folder.Name);
-                Assert.Equal(TestDatabase.SeedFolders[1].Id, folder.ParentFolderId);
+                Assert.Equal(Database.SeedFolders[1].Id, folder.ParentFolderId);
             }
 
             public void Dispose()
@@ -123,10 +123,10 @@ using Xunit;
             [Trait("ServiceTest", "Folder")]
             public void DeletesAFolder()
             {
-                var TestFolderForDeletetionId = (int) FolderService.Post(new InsertFolderRequest(new Folder() {Name="DeleteMe"}));
-                FolderService.Delete(new DeleteFolderRequest(TestFolderForDeletetionId));
+                var testFolderForDeletetionId = (int) FolderService.Post(new InsertFolderRequest(new Folder() {Name="DeleteMe"}));
+                FolderService.Delete(new DeleteFolderRequest(testFolderForDeletetionId));
 
-                var folder = FolderService.Get(new GetFolderRequest(TestFolderForDeletetionId));
+                var folder = FolderService.Get(new GetFolderRequest(testFolderForDeletetionId));
 
                 Assert.Null(folder);
             }

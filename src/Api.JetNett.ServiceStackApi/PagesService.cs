@@ -56,9 +56,12 @@ namespace Api.JetNett.ServiceStackApi
     public class PagePathInfoService : Service
     {
         protected OrmLiteRepository<Page> Repository { get; set; }
+        protected OrmLiteRepository<Folder> FolderRepo { get; set; } 
         public PagePathInfoService(IDbConnectionFactory dbConnectionFactory)
         {
-            Repository = new OrmLiteRepository<Page>(dbConnectionFactory.Open());
+            var db = dbConnectionFactory.Open();
+            Repository = new OrmLiteRepository<Page>(db);
+            FolderRepo = new OrmLiteRepository<Folder>(db);
         }
 
         public List<Page> Get(PagesWithPathsAsTitles request)
@@ -83,7 +86,7 @@ namespace Api.JetNett.ServiceStackApi
             if (folderId == null || folderId == 0)
                 return path;
 
-            var folder = Db.SingleWhere<Folder>("ID", folderId);
+            var folder = FolderRepo.Where(x => x.Id == folderId).SingleOrDefault();
             if (folder != null)
             {
                 path = path.Insert(0, folder.Name + " > ");

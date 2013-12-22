@@ -5,6 +5,7 @@ namespace Api.JetNett.Models.Types
     [Alias("Clients")]
     public class Client
     {
+        [AutoIncrement]
         public int Id { get; set; }
         public string Name { get; set; }
         [Alias("User_Id")]
@@ -17,5 +18,11 @@ namespace Api.JetNett.Models.Types
         public string Css { get; set; }
         [Alias("Analytics_Key")]
         public string AnalyticsKey { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var client = (obj as Client);
+            return client != null && client.Id.Equals(this.Id); 
+        }
     }
 }

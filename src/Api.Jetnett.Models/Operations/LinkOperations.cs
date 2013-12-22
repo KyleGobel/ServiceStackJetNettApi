@@ -50,14 +50,12 @@ namespace Api.JetNett.Models.Operations
 
     [Route("/links/{Id}", "PUT")]
     [Authenticate(ApplyTo.Put)]
-    public class UpdateLinkRequest : IHaveEntity<Link>, IHaveId
+    public class UpdateLinkRequest : IHaveEntity<Link>
     {
         public Link Entity { get; set; }
-        public int Id { get; set; }
 
-        public UpdateLinkRequest(int id, Link entity)
+        public UpdateLinkRequest(Link entity)
         {
-            this.Id = id;
             this.Entity = entity;
         }
     }

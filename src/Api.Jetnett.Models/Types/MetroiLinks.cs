@@ -6,8 +6,10 @@ namespace Api.JetNett.Models.Types
     [Alias("Metro_iLinks")]
     public class MetroiLinks
     {
+        [AutoIncrement]
         public int Id { get; set; }
         [Alias("Client_ID")]
+        [ForeignKey(typeof(Client), OnDelete = "CASCADE", OnUpdate = "CASCADE")]
         public int ClientId { get; set; }
 
         public string PageBgColor { get; set; }
@@ -32,5 +34,12 @@ namespace Api.JetNett.Models.Types
         public string SeoMetaKeys { get; set; }
         public string SeoMetaDesc { get; set; }
         public int ? FontSizePx { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var ilink = obj as MetroiLinks;
+
+            return ilink != null && ilink.Id.Equals(this.Id) && ilink.ClientId.Equals(this.ClientId);
+        }
     }
 }

@@ -1,21 +1,51 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Api.JetNett.Models.Mixins;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi.Operations;
+using ServiceStack;
 using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace Api.JetNett.ServiceStackApi
 {
-    public class MetroILinksService : JetNettService<MetroiLinksDTO, MetroiLinks>
+
+    public class MetroiLinksService : Service
     {
-        public MetroILinksService(IDbConnectionFactory dbConnectionFactory) : base(dbConnectionFactory)
-        { }
-       
-        public override IEnumerable<MetroiLinks> Get(MetroiLinksDTO requestDto)
+        protected OrmLiteRepository<MetroiLinks> Repository { get; set; }
+
+        public MetroiLinksService(IDbConnectionFactory dbConnectionFactory)
         {
-            return requestDto.ClientId != default(int) 
-                ? Repository.Where(m => m.ClientId == requestDto.ClientId) 
-                : base.Get(requestDto);
+            Repository = new OrmLiteRepository<MetroiLinks>(dbConnectionFactory.Open());
+        }
+
+
+        public MetroiLinks Get(GetMetroiLinksRequest request)
+        {
+            return Repository.GetById(request.Id);
+        }
+
+        public List<MetroiLinks> Get(ListMetroiLinksRequest request)
+        {
+            if (request.Ids != default(int[]))
+                return Repository.GetByIds(request.Ids).ToList();
+            return Repository.GetAll().ToList();
+        }
+
+        public void Put(UpdateMetroiLinksRequest request)
+        {
+            Repository.Update(request.Entity);
+        }
+
+        public void Delete(DeleteMetroiLinksRequest request)
+        {
+            Repository.Delete(request.Id.ToEnumerable());
+        }
+
+        public int Post(InsertMetroiLinksRequest request)
+        {
+            return (int)Repository.Insert(request.Entity);
         }
     }
 }

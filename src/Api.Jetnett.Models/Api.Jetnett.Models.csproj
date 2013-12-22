@@ -66,12 +66,12 @@
     <Compile Include="Mixins\ObjectMixins.cs" />
     <Compile Include="Operations\AdGroup.cs" />
     <Compile Include="Operations\BadLink.cs" />
-    <Compile Include="Operations\Clients.cs" />
+    <Compile Include="Operations\ClientOperations.cs" />
     <Compile Include="Operations\CommunityZipcodes.cs" />
     <Compile Include="Operations\FolderOperations.cs" />
     <Compile Include="Operations\IHaveInterfaces.cs" />
     <Compile Include="Operations\LinkOperations.cs" />
-    <Compile Include="Operations\MetroiLinks.cs" />
+    <Compile Include="Operations\MetroiLinksOperations.cs" />
     <Compile Include="Operations\PageOperations.cs" />
     <Compile Include="Types\Active_Jobs.cs" />
     <Compile Include="Types\Ad.cs" />

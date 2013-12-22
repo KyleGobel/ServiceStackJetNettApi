@@ -3,7 +3,6 @@ using System.Linq;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using Api.JetNett.ServiceStackApi;
-using Api.JetNett.ServiceStackApi.Facts.ReactiveApi;
 using Api.JetNett.ServiceStackApi.Facts.Setup;
 using ServiceStack;
 using Xunit;
@@ -11,16 +10,17 @@ using Xunit;
 /// <summary>
 /// Integration Tests against a Test Database
 /// </summary>
-public class PageServiceFacts : IUseFixture<TestDb>
+public class PageServiceFacts 
 {
     #region Setup
     protected PagesService PagesService { get; set; }
-    protected TestDb TestDatabase { get; private set; }
-    public void SetFixture(TestDb data)
-    {
-        TestDatabase = data;
+    protected Db Database { get; private set; }
 
-        PagesService = new PagesService(TestDatabase.ConnectionFactory);
+    public PageServiceFacts()
+    {
+        Database = new Db();
+        Database.SetupDatabase();
+        PagesService = new PagesService(Database.ConnectionFactory);
     }
     #endregion
 
@@ -36,7 +36,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
                 var results = PagesService.Get(new ListPagesRequest());
 
                 Assert.NotNull(results);
-                Assert.Equal(TestDatabase.SeedPages, results);
+                Assert.Equal(Database.SeedPages, results);
             }
 
             [Fact]
@@ -45,11 +45,11 @@ public class PageServiceFacts : IUseFixture<TestDb>
             public void ReturnsAllPagesInAFolder_WhenFolderIdIsNonDefault()
             {
 
-                var folderId = TestDatabase.SeedFolders[0].Id;
+                var folderId = Database.SeedFolders[0].Id;
                 var results = PagesService.Get(new ListPagesRequest {FolderId = folderId});
 
                 Assert.NotNull(results);
-                Assert.Equal(TestDatabase.SeedPages.Where(x => x.FolderId == folderId), results);
+                Assert.Equal(Database.SeedPages.Where(x => x.FolderId == folderId), results);
             }
 
             [Fact]
@@ -57,7 +57,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
             [Trait("Verb", "GET")]
             public void ReturnsAllPagesSpecified_GivenAnArrayOfIds()
             {
-                var oddIdPages = TestDatabase.SeedPages.Where(x => x.Id%2 == 1).ToList();
+                var oddIdPages = Database.SeedPages.Where(x => x.Id%2 == 1).ToList();
 
                 var results = PagesService.Get(new ListPagesRequest {Ids = oddIdPages.Select(x => x.Id).ToArray()});
 
@@ -73,7 +73,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
             [Trait("Verb", "GET")]
             public void ReturnsAPage()
             {
-                var pageToQuery = TestDatabase.SeedPages[0];
+                var pageToQuery = Database.SeedPages[0];
                 var result = PagesService.Get(new GetPageRequest(pageToQuery.Id));
 
                 Assert.Equal(pageToQuery, result);
@@ -88,7 +88,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
         [Trait("Verb", "PUT")]
         public void UpdatesAPage()
         {
-            var page = TestDatabase.SeedPages[0];
+            var page = Database.SeedPages[0];
             var now = DateTime.Now;
             var pageTitle = "Brand new at {0}".FormatWith(now.ToString());
             page.Title = pageTitle;
@@ -106,7 +106,7 @@ public class PageServiceFacts : IUseFixture<TestDb>
         [Trait("Verb", "DELETE")]
         public void DeletesAPage()
         {
-            var id = (int)PagesService.Post(new InsertPageRequest(new Page {Title = " new page", FolderId = TestDatabase.SeedFolders[0].Id}));
+            var id = (int)PagesService.Post(new InsertPageRequest(new Page {Title = " new page", FolderId = Database.SeedFolders[0].Id}));
 
             PagesService.Delete(new DeletePageRequest(id));
 
@@ -138,16 +138,16 @@ public class PageServiceFacts : IUseFixture<TestDb>
     }
 }
 
-public class PagePathInfoServiceFacts : IUseFixture<TestDb>
+public class PagePathInfoServiceFacts 
 {
     #region Setup
     protected PagePathInfoService PagePathInfoService { get; set; }
-    protected TestDb TestDatabase { get; private set; }
-    public void SetFixture(TestDb data)
+    protected Db Database { get; private set; }
+    public PagePathInfoServiceFacts()
     {
-        TestDatabase = data;
-
-        PagePathInfoService = new PagePathInfoService(TestDatabase.ConnectionFactory);
+        Database = new Db();
+        Database.SetupDatabase();
+        PagePathInfoService = new PagePathInfoService(Database.ConnectionFactory);
     }
     #endregion
 
@@ -156,10 +156,10 @@ public class PagePathInfoServiceFacts : IUseFixture<TestDb>
     [Trait("Verb", "GET")]
     public void ReturnsPagesWithPathInfoAsTitles()
     {
-        var page = TestDatabase.SeedPages[0];
+        var page = Database.SeedPages[0];
         var result = PagePathInfoService.Get(new PagesWithPathsAsTitles(page.Id));
 
-        var parentFolder = TestDatabase.SeedFolders.Single(x => x.Id == page.FolderId);
+        var parentFolder = Database.SeedFolders.Single(x => x.Id == page.FolderId);
 
         Assert.Equal(parentFolder.Name + " > " + page.Title, result.Single().Title);
     }

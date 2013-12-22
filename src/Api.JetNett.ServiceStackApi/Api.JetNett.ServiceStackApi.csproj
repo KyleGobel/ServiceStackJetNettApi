@@ -107,7 +107,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IRepository.cs" />
-    <Compile Include="LinkService.cs" />
+    <Compile Include="LinksService.cs" />
     <Compile Include="MetroiLinksService.cs" />
     <Compile Include="Operations\JetNettService.cs" />
     <Compile Include="OrmLiteRepository.cs" />
