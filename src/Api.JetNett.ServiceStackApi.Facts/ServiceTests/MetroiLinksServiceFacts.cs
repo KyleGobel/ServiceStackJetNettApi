@@ -45,7 +45,7 @@ public class MetroiLinksServiceFacts
             }
         }
 
-        public class GetClientsRequestOverload : MetroiLinksServiceFacts
+        public class GetMetroiLinksRequestOverload : MetroiLinksServiceFacts
         {
             [Fact]
             [Trait("Verb", "GET")]
@@ -53,6 +53,19 @@ public class MetroiLinksServiceFacts
             public void ReturnsMetroiLinkWithIdGivenToRequest()
             {
                 var result = MetroiLinksService.Get(new GetMetroiLinksRequest(Database.SeedMetroiLinks[0].Id));
+
+                Assert.Equal(Database.SeedMetroiLinks[0], result);
+            }
+        }
+
+        public class GetMetroiLinksFromClientIdRequestOverload : MetroiLinksServiceFacts
+        {
+            [Fact]
+            [Trait("Verb", "GET")]
+            [Trait("ServiceTest", "metroiLink")]
+            public void ReturnsMetroiLink_GivenClientId()
+            {
+                var result = MetroiLinksService.Get(new GetMetroiLinksFromClientIdRequest(Database.SeedMetroiLinks[0].ClientId));
 
                 Assert.Equal(Database.SeedMetroiLinks[0], result);
             }

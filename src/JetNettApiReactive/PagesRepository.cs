@@ -46,10 +46,11 @@ namespace JetNettApiReactive
             JsonClient.Delete(new DeletePageRequest(id));
         }
 
-        public void Update(int id, Page page)
+        public void Update(Page entity)
         {
-            JsonClient.Put(new UpdatePageRequest(id, page));
+            JsonClient.Put(new UpdatePageRequest(entity.Id, entity));
         }
+
         public IObservable<Page> GetById(int id)
         {
             return JsonClient.GetAsync(new GetPageRequest(id)).ToObservable().Timeout(Timeout);

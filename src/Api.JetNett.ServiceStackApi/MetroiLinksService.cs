@@ -26,6 +26,10 @@ namespace Api.JetNett.ServiceStackApi
             return Repository.GetById(request.Id);
         }
 
+        public MetroiLinks Get(GetMetroiLinksFromClientIdRequest request)
+        {
+            return Repository.Where(x => x.ClientId == request.ClientId).Single();
+        }
         public List<MetroiLinks> Get(ListMetroiLinksRequest request)
         {
             if (request.Ids != default(int[]))

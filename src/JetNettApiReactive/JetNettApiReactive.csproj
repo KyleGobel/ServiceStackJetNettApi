@@ -79,7 +79,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pages.cs" />
+    <Compile Include="BaseReactiveRepository.cs" />
+    <Compile Include="ClientRepository.cs" />
+    <Compile Include="IReactiveRepository.cs" />
+    <Compile Include="MetroiLinkRepository.cs" />
     <Compile Include="PagesRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
