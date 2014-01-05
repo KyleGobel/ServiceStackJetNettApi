@@ -56,7 +56,7 @@ namespace Api.JetNett.Models.Operations
         }
     }
 
-    [Route("/metroilinks/{Id}", "PUT")]
+    [Route("/metroilinks/", "PUT")]
     [Authenticate(ApplyTo.Put)]
     public class UpdateMetroiLinksRequest : IHaveEntity<MetroiLinks>
     {
